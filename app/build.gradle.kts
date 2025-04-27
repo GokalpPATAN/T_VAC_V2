@@ -142,6 +142,9 @@ dependencies {
     // Gemini SDK
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 
+    //cardmodel
+    implementation ("androidx.cardview:cardview:1.0.0")
+
 
 
 
