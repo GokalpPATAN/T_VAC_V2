@@ -16,6 +16,8 @@ plugins {
     alias(libs.plugins.daggerHilt)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
 
+    id("kotlin-parcelize")
+
 
 
 }

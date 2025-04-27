@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_homeFragment_to_deviceFragment"
             app:destination="@id/deviceFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_treeDetailFragment"
+            app:destination="@id/treeDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceFragment"
@@ -54,5 +57,24 @@
         android:id="@+id/searchFragment"
         android:name="com.farukayata.t_vac_kotlin.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+
+    <!-- searchFragment içinden treeDetailFragmenta geçiş  -->
+    <action
+        android:id="@+id/action_searchFragment_to_treeDetailFragment"
+        app:destination="@id/treeDetailFragment" />
+    </fragment>
+
+    <!-- detailfragment -->
+    <fragment
+        android:id="@+id/treeDetailFragment"
+        android:name="com.farukayata.t_vac_kotlin.ui.tree_detail.TreeDetailFragment"
+        android:label="fragment_tree_detail"
+        tools:layout="@layout/fragment_tree_detail">
+
+        <argument
+            android:name="tree"
+            app:argType="com.farukayata.t_vac_kotlin.model.Tree" />
+
+    </fragment>
 </navigation>

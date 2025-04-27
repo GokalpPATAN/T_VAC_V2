@@ -14,6 +14,7 @@ import com.farukayata.t_vac_kotlin.model.SensorData
 import com.farukayata.t_vac_kotlin.ui.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import androidx.navigation.fragment.findNavController
 
 
 @AndroidEntryPoint
@@ -42,7 +43,10 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = SearchAdapter(viewModel.searchFilterList)
+        adapter = SearchAdapter(viewModel.searchFilterList){ selectedTree ->
+            val action = SearchFragmentDirections.actionSearchFragmentToTreeDetailFragment(selectedTree)
+            findNavController().navigate(action)
+        }
         recyclerView.adapter = adapter
         observeEvents()
         binding.searchButton.setOnClickListener {

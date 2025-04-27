@@ -10,20 +10,45 @@ import com.farukayata.t_vac_kotlin.model.Tree
 import com.farukayata.t_vac_kotlin.util.loadImage
 import com.farukayata.t_vac_kotlin.R
 
-class SearchAdapter (treeList: List<Tree>) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
-    private var treeList2: List<Tree> = treeList
+class SearchAdapter (
+    private var treeList2: List<Tree>,
+    private val onItemClick: (Tree) -> Unit
+) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+    //private var treeList2: List<Tree> = treeList
+
+    /*
     inner class SearchViewHolder(val binding: ItemTreeBinding) : RecyclerView.ViewHolder(binding.root) {
         val treeName = binding.treeName
         val treeTemp = binding.treeTemp
         val treeHumadity = binding.treeHumadity
         val treeFeatures = binding.treeFeatures
     }
-
+    */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAdapter.SearchViewHolder {
         val binding = ItemTreeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchViewHolder(binding)
     }
 
+    inner class SearchViewHolder(val binding: ItemTreeBinding) : RecyclerView.ViewHolder(binding.root) {
+        val treeName = binding.treeName
+        val treeTemp = binding.treeTemp
+        val treeHumadity = binding.treeHumadity
+        val treeFeatures = binding.treeFeatures
+
+        fun bind(tree: Tree) {
+            binding.treeImg.loadImage(tree.img)
+            treeName.text = "Ağaç Türü: ${tree.name}"
+            treeTemp.text = "Sıcaklık: ${tree.temperatureRange.start} ile ${tree.temperatureRange.endInclusive} derece arasında"
+            treeHumadity.text = "Nem Oranı: ${tree.humidityRange.start} ile ${tree.humidityRange.endInclusive} % arasında"
+            treeFeatures.text = tree.features
+
+            binding.root.setOnClickListener {
+                onItemClick(tree)
+            }
+        }
+    }
+
+    /*
     override fun onBindViewHolder(holder: SearchAdapter.SearchViewHolder, position: Int) {
         val tree = treeList2[position]
         holder.binding.treeImg.loadImage(tree.img)
@@ -31,6 +56,10 @@ class SearchAdapter (treeList: List<Tree>) : RecyclerView.Adapter<SearchAdapter.
         holder.treeTemp.text = "Sıcaklık: ${tree.temperatureRange.start} ile ${tree.temperatureRange.endInclusive} derece arasında"
         holder.treeHumadity.text = "Nem Oranı: ${tree.humidityRange.start} ile ${tree.humidityRange.endInclusive} % arasında"
         holder.treeFeatures.text = tree.features
+    }
+    */
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
+        holder.bind(treeList2[position])
     }
 
     override fun getItemCount(): Int {

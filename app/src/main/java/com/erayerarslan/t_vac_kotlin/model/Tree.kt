@@ -1,6 +1,9 @@
 package com.farukayata.t_vac_kotlin.model
 
+import android.os.Parcelable
 import com.farukayata.t_vac_kotlin.R
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 /*
 data class Tree(
     val name: String = "",
@@ -11,22 +14,20 @@ data class Tree(
 )
 */
 
+@Parcelize
 data class Tree(
-    val name: String="",
-    val temperatureRange: IntRange =0..0,
-    val humidityRange: IntRange=0..0,
-    val features: String="",
-    val img:Int =R.drawable.ic_default_tree // default veriyoruz çünkü şimdilik AI dan bu gelmeyecek
-)
+    val name: String = "",
+    val temperatureRange: @RawValue IntRange = 0..0,
+    val humidityRange: @RawValue IntRange = 0..0,
+    val features: String = "",
+    val img: Int = R.drawable.ic_default_tree,
+    val plantingInfo: String = ""
+) : Parcelable {
 
-
-{
-
-
-    // Uygun sıcaklık ve nem aralıkları için kontrol işlevi
     fun isSuitable(temperature: Int, humidity: Int): Boolean {
         return temperature in temperatureRange && humidity in humidityRange
     }
+
     fun nameFilter(query: String): Boolean {
         return name.contains(query, ignoreCase = true)
     }
@@ -51,16 +52,94 @@ var treeList = listOf(
 
 
 var treeList = listOf(
-    Tree("Meşe", 15..30, 40..70, "Güçlü ve dayanıklıdır, geniş alanlara ihtiyaç duyar.", R.drawable.ic_oak),
-    Tree("Çam", -5..30, 30..60, "Soğuk iklimlere de dayanıklıdır, hızlı büyür.", R.drawable.ic_pine),
-    Tree("Zeytin", 20..35, 30..50, "Sıcak ve kuru iklimleri sever, az su ister.", R.drawable.ic_olive),
-    Tree("Kestane", 10..25, 60..80, "Nemli ortamları sever, verimli toprakta iyi gelişir.", R.drawable.ic_chestnut),
-    Tree("Ceviz", 15..28, 50..70, "Derin ve nemli toprakları sever, geniş kök yapısına ihtiyaç duyar.", R.drawable.ic_walnut),
-    Tree("Akasya", 15..35, 20..40, "Kuraklığa dayanıklıdır, az su gerektirir.", R.drawable.ic_acacia),
-    Tree("Kavak", 10..25, 50..70, "Su kaynaklarına yakın bölgelerde daha hızlı büyür.", R.drawable.ic_poplar),
-    Tree("Ardıç", 5..25, 30..50, "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.", R.drawable.ic_juniper),
-    Tree("Söğüt", 15..30, 60..80, "Su kenarlarında ve nemli topraklarda yetişir, hızla büyür.", R.drawable.ic_willow),
-    Tree("Eray", 0..50, 0..50, "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.", R.drawable.ic_juniper),
-    Tree("Erarslan", 0..50, 0..50, "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.", R.drawable.ic_juniper),
+    Tree(
+        "Meşe",
+        15..30,
+        40..70,
+        "Güçlü ve dayanıklıdır, geniş alanlara ihtiyaç duyar.",
+        R.drawable.ic_oak,
+        "Meşe tohumları sonbaharda doğrudan toprağa ekilmeli. Nemli ve iyi drene edilmiş toprak seçilmeli. İlk yıl düzenli sulama gerekir."
+    ),
+    Tree(
+        "Çam",
+        -5..30,
+        30..60,
+        "Soğuk iklimlere de dayanıklıdır, hızlı büyür.",
+        R.drawable.ic_pine,
+        "Çam fideleri ilkbaharda güneşli alanlara dikilmeli. Toprak nemli tutulmalı, aşırı su kaçınılmalıdır."
+    ),
+    Tree(
+        "Zeytin",
+        20..35,
+        30..50,
+        "Sıcak ve kuru iklimleri sever, az su ister.",
+        R.drawable.ic_olive,
+        "Zeytin fidanları sonbaharda veya erken ilkbaharda dikilmeli. Hafif alkali, iyi drene toprak tercih edilmeli. İlk 2 yıl düzenli sulama yapılmalıdır."
+    ),
+    Tree(
+        "Kestane",
+        10..25,
+        60..80,
+        "Nemli ortamları sever, verimli toprakta iyi gelişir.",
+        R.drawable.ic_chestnut,
+        "Kestane fidanları sonbaharda veya erken ilkbaharda dikilmeli. Asidik ve iyi drene toprak tercih edilmeli. Sulama düzenli yapılmalıdır."
+    ),
+    Tree(
+        "Ceviz",
+        15..28,
+        50..70,
+        "Derin ve nemli toprakları sever, geniş kök yapısına ihtiyaç duyar.",
+        R.drawable.ic_walnut,
+        "Ceviz fidanları sonbaharda ekilmeli. Derin, humuslu ve nemli topraklar tercih edilmeli. Genç ağaçlarda yaz boyunca sulama önemlidir."
+    ),
+    Tree(
+        "Akasya",
+        15..35,
+        20..40,
+        "Kuraklığa dayanıklıdır, az su gerektirir.",
+        R.drawable.ic_acacia,
+        "Akasya tohumları ilkbaharda doğrudan toprağa ekilmeli. Su geçirgenliği yüksek toprak tercih edilmeli. Kurak dönemlerde minimal sulama yapılmalıdır."
+    ),
+    Tree(
+        "Kavak",
+        10..25,
+        50..70,
+        "Su kaynaklarına yakın bölgelerde daha hızlı büyür.",
+        R.drawable.ic_poplar,
+        "Kavak fideleri erken ilkbaharda dikilmeli. Su kaynaklarına yakın, nemli topraklar seçilmeli. İlk yıl düzenli sulama gereklidir."
+    ),
+    Tree(
+        "Ardıç",
+        5..25,
+        30..50,
+        "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.",
+        R.drawable.ic_juniper,
+        "Ardıç tohumları sonbaharda ekilmeli. Taşlı ve hafif topraklar tercih edilmeli. Sulama ihtiyacı azdır."
+    ),
+    Tree(
+        "Söğüt",
+        15..30,
+        60..80,
+        "Su kenarlarında ve nemli topraklarda yetişir, hızla büyür.",
+        R.drawable.ic_willow,
+        "Söğüt fidanları ilkbaharda ekilmeli. Su kenarları ve nemli alanlar tercih edilmeli. Toprak nemi sürekli korunmalıdır."
+    ),
+    Tree(
+        "Eray",
+        0..50,
+        0..50,
+        "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.",
+        R.drawable.ic_juniper,
+        "Eray türü tohumları ilkbaharda dikilmeli. Taşlı ve kurak topraklar tercih edilmeli. Düzenli sulama gerektirmez."
+    ),
+    Tree(
+        "Erarslan",
+        0..50,
+        0..50,
+        "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.",
+        R.drawable.ic_juniper,
+        "Erarslan türü için ilkbaharda dikim yapılmalı. Kuraklığa dayanıklı alanlar tercih edilmeli. Az su ihtiyacı vardır."
+    )
 )
+
 

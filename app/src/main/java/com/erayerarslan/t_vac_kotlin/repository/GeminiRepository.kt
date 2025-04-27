@@ -30,29 +30,27 @@ class GeminiRepository @Inject constructor(
                 - Potasyum: ${sensor.potasyumValue}
                 
                 Bu çevre koşullarına uygun **tam olarak 3 ağaç türü** öner.
-                Yanıtı yalnızca aşağıdaki gibi ham JSON dizisi olarak döndür:
-                
+                Her bir ağaç için şu bilgileri JSON formatında ver:
+                - name: Ağaç türü ismi
+                - temperatureRange: [min sıcaklık, max sıcaklık]
+                - humidityRange: [min nem, max nem]
+                - features: Kısa özellik açıklaması
+                - plantingInfo: Ağacın nasıl ekilmesi, sulanması, bakılması gerektiği
+            
+                Yanıtı sadece aşağıdaki gibi saf JSON dizisi olarak döndür (**başka hiçbir açıklama ekleme**):
+            
                 [
                   {
                     "name": "Zeytin Ağacı",
                     "temperatureRange": [20, 35],
                     "humidityRange": [30, 50],
-                    "features": "Sıcak ve kuru iklimleri sever, az su ister."
+                    "features": "Sıcak ve kuru iklimleri sever, az su ister.",
+                    "plantingInfo": "Zeytin fidanları sonbaharda dikilmeli. Hafif alkali ve iyi drene toprak seçilmeli. İlk 2 yıl düzenli sulama yapılmalıdır."
                   },
-                  {
-                    "name": "Çam Ağacı",
-                    "temperatureRange": [-5, 30],
-                    "humidityRange": [30, 60],
-                    "features": "Soğuk iklimlere dayanıklıdır, hızlı büyür."
-                  },
-                  {
-                    "name": "Kavak Ağacı",
-                    "temperatureRange": [10, 25],
-                    "humidityRange": [50, 70],
-                    "features": "Su kaynaklarına yakın bölgelerde daha hızlı büyür."
-                  }
+                  ...
                 ]
-                """.trimIndent()
+            """.trimIndent()
+
 
             val response = model.generateContent(prompt)
 

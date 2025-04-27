@@ -90,7 +90,11 @@ class HomeFragment : Fragment() {
         potasyumValue = SensorDataManager.sensorData?.potasyumValue?: "1"
         azotValue = SensorDataManager.sensorData?.azotValue?: "1"
 
-        adapter = TreeAdapter(emptyList())
+        adapter = TreeAdapter(emptyList()){ selectedTree ->
+            val action = HomeFragmentDirections.actionHomeFragmentToTreeDetailFragment(selectedTree)
+            findNavController().navigate(action)
+        }
+
         recyclerView.isVisible = false
         recyclerView.adapter = adapter
         observeEvents()
@@ -107,12 +111,25 @@ class HomeFragment : Fragment() {
         loadData()
     }
 
+    /*
     override fun onResume() {
         super.onResume()
         adapter = TreeAdapter(emptyList())
         recyclerView.adapter = adapter
         refreshData()
     }
+    */
+    //homedan onclick kalkınca burayı üstteki gibi yapcaz
+    override fun onResume() {
+        super.onResume()
+        adapter = TreeAdapter(emptyList()) { selectedTree ->
+            val action = HomeFragmentDirections.actionHomeFragmentToTreeDetailFragment(selectedTree)
+            findNavController().navigate(action)
+        }
+        recyclerView.adapter = adapter
+        refreshData()
+    }
+
 
     private fun refreshData() {
         // Örnek: ViewModel'deki metotlarla veriyi tekrar sorgulama
