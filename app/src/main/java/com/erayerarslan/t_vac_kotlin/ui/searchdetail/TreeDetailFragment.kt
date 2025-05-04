@@ -30,11 +30,11 @@ class TreeDetailFragment : Fragment() {
         val tree = args.tree // SafeArgs ile gelen Tree nesnesi
 
         binding.treeDetailImg.loadImage(tree.img)
-        binding.treeDetailName.text = "Ağaç Türü: ${tree.name}"
-        binding.treeDetailTemp.text = "Sıcaklık: ${tree.temperatureRange.start} - ${tree.temperatureRange.endInclusive} °C"
-        binding.treeDetailHumidity.text = "Nem: ${tree.humidityRange.start} - ${tree.humidityRange.endInclusive} %"
-        binding.treeDetailFeatures.text = "Özellikler: ${tree.features}"
-        binding.treeDetailPlantingInfo.text = "Yetiştirme Bilgisi: ${tree.plantingInfo}"
+        binding.treeDetailName.text = "${tree.name}"
+        binding.treeDetailTemp.text = "${tree.temperatureRange.start} - ${tree.temperatureRange.endInclusive} °C"
+        binding.treeDetailHumidity.text = "${tree.humidityRange.start} - ${tree.humidityRange.endInclusive} %"
+        binding.treeDetailFeatures.text = "${tree.features}"
+        binding.treeDetailPlantingInfo.text = "${tree.plantingInfo}"
     }
 
     override fun onDestroyView() {

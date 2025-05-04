@@ -24,66 +24,51 @@ class SearchViewModel @Inject constructor(
     private val _filteredTreeListSearch = MutableLiveData<List<Tree>>()
     val filteredTreeListSearch: LiveData<List<Tree>> get() = _filteredTreeListSearch
 
-    val searchFilterList = treeList.toList()
-
-    fun fetchTreeList(name: String) {
-        val filteredList = searchFilterList.filter { tree ->
-            tree.nameFilter(name)
-        }
-        Log.d("SearchViewModel", "Filtered tree list: $filteredList")
-        _filteredTreeListSearch.value = filteredList
-    }
-
-    //AI önerileri için yeni yapı
     private val _suggestedTrees = MutableStateFlow<List<Tree>>(emptyList())
     val suggestedTrees: StateFlow<List<Tree>> = _suggestedTrees
 
+    private val localTreeList = treeList.toList()
+
+
+    // Bu fonksiyon artık aktif listeye göre çalışacak
+    fun fetchTreeList(query: String) {
+        val activeList = if (isAIActive.value) {
+            suggestedTrees.value
+        } else {
+            localTreeList
+        }
+
+        val filtered = if (query.isBlank()) {
+            activeList
+            //arama kutusunun boşluk olma olayında etkin
+        } else {
+            activeList.filter { it.nameFilter(query) }
+        }
+
+        _filteredTreeListSearch.value = filtered
+    }
+
+
+    //AI önerileri için yeni yapı
     fun fetchTreeSuggestions(sensorData: SensorData) {
         viewModelScope.launch {
             try {
                 val trees = geminiRepository.getSuggestions(sensorData)
                 _suggestedTrees.value = trees
-                isAIActive.value = true // <-- Aİ MOD AKTİF 🧠
+                isAIActive.value = true
+                _filteredTreeListSearch.value = trees // Ekranda hemen gözüksün
             } catch (e: Exception) {
                 e.printStackTrace()
                 _suggestedTrees.value = emptyList()
+                _filteredTreeListSearch.value = emptyList()
             }
         }
     }
 
-}
-
-
-
-
-
-
-/*
-package com.farukayata.t_vac_kotlin.ui.search
-
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.farukayata.t_vac_kotlin.model.Tree
-import com.farukayata.t_vac_kotlin.model.treeList
-
-
-class SearchViewModel : ViewModel() {
-    private val _filteredTreeListSearch = MutableLiveData<List<Tree>>()
-    val filteredTreeListSearch: LiveData<List<Tree>> get() = _filteredTreeListSearch
-
-   val searchFilterList = treeList.toList()
-
-    fun fetchTreeList(name: String) {
-        val filteredList = searchFilterList.filter { tree ->
-            tree.nameFilter(name)
-
-        }
-        Log.d("HomeViewModel", "Filtered tree list: $filteredList") // Filtrelenen listeyi logla
-        _filteredTreeListSearch.value = filteredList
+    //search sayfasına tıkladık lokal listemiz gözüktü
+    fun loadInitialList() {
+        _filteredTreeListSearch.value = localTreeList
+        isAIActive.value = false
     }
 
-
 }
-*/

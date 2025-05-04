@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.farukayata.t_vac_kotlin.databinding.FragmentSearchBinding
 import com.farukayata.t_vac_kotlin.model.SensorData
 import com.farukayata.t_vac_kotlin.ui.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 
 
@@ -43,17 +42,28 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = SearchAdapter(viewModel.searchFilterList){ selectedTree ->
+
+        adapter = SearchAdapter(emptyList()) { selectedTree ->
             val action = SearchFragmentDirections.actionSearchFragmentToTreeDetailFragment(selectedTree)
             findNavController().navigate(action)
         }
         recyclerView.adapter = adapter
+
+        //sayfa açılınca lokal liste gelcek
+        viewModel.loadInitialList()
         observeEvents()
+
         binding.searchButton.setOnClickListener {
             val name = binding.searchEditText.text.toString()
             viewModel.fetchTreeList(name)
             //ai modunu kapatcak flag gibi
-            viewModel.isAIActive.value = false
+            //viewModel.isAIActive.value = false
+        }
+
+        //her harf yazdığında veya sildiğinde fetchTreeList tetiklencek
+        binding.searchEditText.addTextChangedListener { editable ->
+            val query = editable.toString()
+            viewModel.fetchTreeList(query)
         }
 
         binding.aiSuggestButton.setOnClickListener {
@@ -71,6 +81,7 @@ class SearchFragment : Fragment() {
 
     }
 
+    /*-> daha basit ve sade kurduk
     private fun observeEvents() {
         // Lokal arama sonucu gözlemi (LiveData)
         viewModel.filteredTreeListSearch.observe(viewLifecycleOwner) { treeList ->
@@ -94,21 +105,13 @@ class SearchFragment : Fragment() {
             }
         }
     }
+    */
 
-
-    /*
     private fun observeEvents() {
-
-        viewModel.filteredTreeListSearch.observe(viewLifecycleOwner) { tree ->
-            if (tree.isNotEmpty()) {
-                adapter.updateTreeList(tree)
-            } else {
-                adapter.updateTreeList(emptyList())
-            }
-
+        viewModel.filteredTreeListSearch.observe(viewLifecycleOwner) { treeList ->
+            adapter.updateTreeList(treeList)
         }
     }
-    */
 
     override fun onDestroyView() {
         super.onDestroyView()
