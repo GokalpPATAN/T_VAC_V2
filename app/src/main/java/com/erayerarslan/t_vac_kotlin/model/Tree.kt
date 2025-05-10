@@ -4,15 +4,6 @@ import android.os.Parcelable
 import com.farukayata.t_vac_kotlin.R
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
-/*
-data class Tree(
-    val name: String = "",
-    val temperatureRange: List<Int> = listOf(),
-    val humidityRange: List<Int> = listOf(),
-    val features: String = "",
-    val img: Int = R.drawable.ic_default_tree
-)
-*/
 
 @Parcelize
 data class Tree(
