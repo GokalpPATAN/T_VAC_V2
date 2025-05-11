@@ -37,6 +37,7 @@ android {
 
         val geminiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
+        resValue("string", "google_maps_key", "\"$geminiKey\"")//maps için
 
         //buildConfigField("String", "GEMINI_API_KEY", "\"${project.properties["GEMINI_API_KEY"]}\"")
 

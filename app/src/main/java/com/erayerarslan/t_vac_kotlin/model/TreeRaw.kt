@@ -7,7 +7,8 @@ data class TreeRaw(
     val temperatureRange: List<Int>,
     val humidityRange: List<Int>,
     val features: String,
-    val plantingInfo: String
+    val plantingInfo: String,
+    val locationCompatibilityNote: String?
 )
 
 fun TreeRaw.toTree(): Tree {
@@ -16,6 +17,7 @@ fun TreeRaw.toTree(): Tree {
         temperatureRange = temperatureRange[0]..temperatureRange[1],
         humidityRange = humidityRange[0]..humidityRange[1],
         features = features,
-        plantingInfo = plantingInfo
+        plantingInfo = plantingInfo,
+        locationNote = locationCompatibilityNote ?: ""
     )
 }

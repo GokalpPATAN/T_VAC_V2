@@ -12,7 +12,9 @@ data class Tree(
     val humidityRange: @RawValue IntRange = 0..0,
     val features: String = "",
     val img: Int = R.drawable.ic_default_tree,
-    val plantingInfo: String = ""
+    val plantingInfo: String = "",
+    val locationCompatibilityNote: String = "",
+    val locationNote: String = ""
 ) : Parcelable {
 
     fun isSuitable(temperature: Int, humidity: Int): Boolean {
@@ -49,7 +51,8 @@ var treeList = listOf(
         40..70,
         "Güçlü ve dayanıklıdır, geniş alanlara ihtiyaç duyar.",
         R.drawable.ic_oak,
-        "Meşe tohumları sonbaharda doğrudan toprağa ekilmeli. Nemli ve iyi drene edilmiş toprak seçilmeli. İlk yıl düzenli sulama gerekir."
+        "Meşe tohumları sonbaharda doğrudan toprağa ekilmeli. Nemli ve iyi drene edilmiş toprak seçilmeli. İlk yıl düzenli sulama gerekir.",
+        locationNote = "Karadeniz ve Marmara bölgelerinde yaygındır."
     ),
     Tree(
         "Çam",
@@ -57,7 +60,8 @@ var treeList = listOf(
         30..60,
         "Soğuk iklimlere de dayanıklıdır, hızlı büyür.",
         R.drawable.ic_pine,
-        "Çam fideleri ilkbaharda güneşli alanlara dikilmeli. Toprak nemli tutulmalı, aşırı su kaçınılmalıdır."
+        "Çam fideleri ilkbaharda güneşli alanlara dikilmeli. Toprak nemli tutulmalı, aşırı su kaçınılmalıdır.",
+        locationNote = "İç Anadolu ve Doğu Anadolu bölgelerine uygundur."
     ),
     Tree(
         "Zeytin",
@@ -65,7 +69,8 @@ var treeList = listOf(
         30..50,
         "Sıcak ve kuru iklimleri sever, az su ister.",
         R.drawable.ic_olive,
-        "Zeytin fidanları sonbaharda veya erken ilkbaharda dikilmeli. Hafif alkali, iyi drene toprak tercih edilmeli. İlk 2 yıl düzenli sulama yapılmalıdır."
+        "Zeytin fidanları sonbaharda veya erken ilkbaharda dikilmeli. Hafif alkali, iyi drene toprak tercih edilmeli. İlk 2 yıl düzenli sulama yapılmalıdır.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     ),
     Tree(
         "Kestane",
@@ -73,7 +78,8 @@ var treeList = listOf(
         60..80,
         "Nemli ortamları sever, verimli toprakta iyi gelişir.",
         R.drawable.ic_chestnut,
-        "Kestane fidanları sonbaharda veya erken ilkbaharda dikilmeli. Asidik ve iyi drene toprak tercih edilmeli. Sulama düzenli yapılmalıdır."
+        "Kestane fidanları sonbaharda veya erken ilkbaharda dikilmeli. Asidik ve iyi drene toprak tercih edilmeli. Sulama düzenli yapılmalıdır.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     ),
     Tree(
         "Ceviz",
@@ -81,7 +87,8 @@ var treeList = listOf(
         50..70,
         "Derin ve nemli toprakları sever, geniş kök yapısına ihtiyaç duyar.",
         R.drawable.ic_walnut,
-        "Ceviz fidanları sonbaharda ekilmeli. Derin, humuslu ve nemli topraklar tercih edilmeli. Genç ağaçlarda yaz boyunca sulama önemlidir."
+        "Ceviz fidanları sonbaharda ekilmeli. Derin, humuslu ve nemli topraklar tercih edilmeli. Genç ağaçlarda yaz boyunca sulama önemlidir.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     ),
     Tree(
         "Akasya",
@@ -89,7 +96,8 @@ var treeList = listOf(
         20..40,
         "Kuraklığa dayanıklıdır, az su gerektirir.",
         R.drawable.ic_acacia,
-        "Akasya tohumları ilkbaharda doğrudan toprağa ekilmeli. Su geçirgenliği yüksek toprak tercih edilmeli. Kurak dönemlerde minimal sulama yapılmalıdır."
+        "Akasya tohumları ilkbaharda doğrudan toprağa ekilmeli. Su geçirgenliği yüksek toprak tercih edilmeli. Kurak dönemlerde minimal sulama yapılmalıdır.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     ),
     Tree(
         "Kavak",
@@ -97,7 +105,8 @@ var treeList = listOf(
         50..70,
         "Su kaynaklarına yakın bölgelerde daha hızlı büyür.",
         R.drawable.ic_poplar,
-        "Kavak fideleri erken ilkbaharda dikilmeli. Su kaynaklarına yakın, nemli topraklar seçilmeli. İlk yıl düzenli sulama gereklidir."
+        "Kavak fideleri erken ilkbaharda dikilmeli. Su kaynaklarına yakın, nemli topraklar seçilmeli. İlk yıl düzenli sulama gereklidir.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     ),
     Tree(
         "Ardıç",
@@ -105,7 +114,8 @@ var treeList = listOf(
         30..50,
         "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.",
         R.drawable.ic_juniper,
-        "Ardıç tohumları sonbaharda ekilmeli. Taşlı ve hafif topraklar tercih edilmeli. Sulama ihtiyacı azdır."
+        "Ardıç tohumları sonbaharda ekilmeli. Taşlı ve hafif topraklar tercih edilmeli. Sulama ihtiyacı azdır.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     ),
     Tree(
         "Söğüt",
@@ -113,7 +123,8 @@ var treeList = listOf(
         60..80,
         "Su kenarlarında ve nemli topraklarda yetişir, hızla büyür.",
         R.drawable.ic_willow,
-        "Söğüt fidanları ilkbaharda ekilmeli. Su kenarları ve nemli alanlar tercih edilmeli. Toprak nemi sürekli korunmalıdır."
+        "Söğüt fidanları ilkbaharda ekilmeli. Su kenarları ve nemli alanlar tercih edilmeli. Toprak nemi sürekli korunmalıdır.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     ),
     Tree(
         "Eray",
@@ -121,7 +132,8 @@ var treeList = listOf(
         0..50,
         "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.",
         R.drawable.ic_juniper,
-        "Eray türü tohumları ilkbaharda dikilmeli. Taşlı ve kurak topraklar tercih edilmeli. Düzenli sulama gerektirmez."
+        "Eray türü tohumları ilkbaharda dikilmeli. Taşlı ve kurak topraklar tercih edilmeli. Düzenli sulama gerektirmez.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     ),
     Tree(
         "Erarslan",
@@ -129,7 +141,8 @@ var treeList = listOf(
         0..50,
         "Soğuk ve kurak iklimlerde dayanıklıdır, dağlık alanlarda iyi yetişir.",
         R.drawable.ic_juniper,
-        "Erarslan türü için ilkbaharda dikim yapılmalı. Kuraklığa dayanıklı alanlar tercih edilmeli. Az su ihtiyacı vardır."
+        "Erarslan türü için ilkbaharda dikim yapılmalı. Kuraklığa dayanıklı alanlar tercih edilmeli. Az su ihtiyacı vardır.",
+        locationNote = "Ege ve Akdeniz bölgelerinde yaygındır."
     )
 )
 

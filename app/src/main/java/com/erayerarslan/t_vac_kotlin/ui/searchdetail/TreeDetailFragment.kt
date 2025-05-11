@@ -35,6 +35,7 @@ class TreeDetailFragment : Fragment() {
         binding.treeDetailHumidity.text = "${tree.humidityRange.start} - ${tree.humidityRange.endInclusive} %"
         binding.treeDetailFeatures.text = "${tree.features}"
         binding.treeDetailPlantingInfo.text = "${tree.plantingInfo}"
+        binding.treeDetailLocationNote.text = tree.locationNote
     }
 
     override fun onDestroyView() {

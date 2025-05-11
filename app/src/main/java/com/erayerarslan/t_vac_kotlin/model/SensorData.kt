@@ -7,7 +7,8 @@ data class SensorData(
     val fosforValue: String = "1",
     val humidityValue: String = "1",
     val potasyumValue: String = "1",
-    val azotValue: String = "1"
+    val azotValue: String = "1",
+    val locationName: String = "Bilinmiyor"
 )
 object SensorDataManager {
     var sensorData: SensorData? = null

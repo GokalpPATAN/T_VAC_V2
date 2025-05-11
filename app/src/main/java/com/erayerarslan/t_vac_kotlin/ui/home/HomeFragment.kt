@@ -27,10 +27,33 @@ import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import com.github.mikephil.charting.components.XAxis
+import com.google.android.gms.maps.MapView
+import android.content.pm.PackageManager
+import android.location.Geocoder
+import androidx.core.app.ActivityCompat
+import android.widget.ScrollView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.location.LocationServices
+import android.os.Looper
+import android.widget.LinearLayout
+import com.farukayata.t_vac_kotlin.model.SensorData
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import java.util.Locale
+
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
+
+    //banner da maps için
+    private lateinit var mapView: MapView
+    private val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
+
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -73,7 +96,65 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val swipeRefreshLayout: SwipeRefreshLayout = binding.swipeRefreshLayout
+
+        // Map
+        val mapViewBundle = savedInstanceState?.getBundle(MAP_VIEW_BUNDLE_KEY)
+        mapView = binding.root.findViewById(R.id.mapView)
+        mapView.onCreate(mapViewBundle)
+
+
+        mapView.getMapAsync { googleMap ->
+            if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                googleMap.isMyLocationEnabled = true
+                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+                val locationRequest = LocationRequest.create().apply {
+                    interval = 5 * 60 * 10000 //5 dk
+                    fastestInterval = 2 * 60 * 5000 //2dk
+                    //priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+                    priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+                }
+
+                val locationCallback = object : LocationCallback() {
+                    override fun onLocationResult(result: LocationResult) { //open değil abstrack
+                        result.lastLocation?.let { location ->
+                            val userLatLng = LatLng(location.latitude, location.longitude)
+                            googleMap.clear()
+                            googleMap.addMarker(
+                                MarkerOptions().position(userLatLng).title("Mevcut Konum")
+                            )
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f))
+
+                            //Geocoder ile şehir ismini al ve SensorDataya set et
+                            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                            val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                            val cityName = addresses?.firstOrNull()?.adminArea ?: "Bilinmiyor"
+
+                            SensorDataManager.sensorData = SensorData(
+                                phValue,
+                                temperatureValue,
+                                conductibilityValue,
+                                fosforValue,
+                                humidityValue,
+                                potasyumValue,
+                                azotValue,
+                                locationName = cityName //Burada set edildi
+                            )
+                        }
+                    }
+                }
+
+                fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+
+            } else {
+                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1001)
+            }
+        }
+
+        // Tab layout setup
+        setupTabs()
+
+
 
         val fab: FloatingActionButton = binding.fab
         fab.setOnClickListener {
@@ -99,6 +180,7 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = adapter
         observeEvents()
 
+        val swipeRefreshLayout: SwipeRefreshLayout = binding.swipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
 
             refreshData()
@@ -106,6 +188,7 @@ class HomeFragment : Fragment() {
 
             swipeRefreshLayout.isRefreshing = false // Yükleme tamamlandığında animasyonu durdur
         }
+        observeEvents()
         setupUI()
         setupCharts()
         loadData()
@@ -128,11 +211,31 @@ class HomeFragment : Fragment() {
         }
         recyclerView.adapter = adapter
         refreshData()
+        mapView.onResume()
+    }
+
+    //maps
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
     }
 
 
+
+
     private fun refreshData() {
-        // Örnek: ViewModel'deki metotlarla veriyi tekrar sorgulama
+        //ViewModel'deki metotlarla veriyi tekrar sorgulama
         val temperature = SensorDataManager.sensorData?.temperatureValue?.toFloat()?.toInt()
         val humidity = SensorDataManager.sensorData?.humidityValue?.toFloat()?.toInt()
 
@@ -154,16 +257,6 @@ class HomeFragment : Fragment() {
 
         }
     }
-//    private fun observeEvents() {
-//        viewModel.filteredTreeList.observe(viewLifecycleOwner) { treeList ->
-//            binding.treeName.text = treeList.firstOrNull()?.name ?: ""
-//            binding.treeTemp.text = treeList.firstOrNull()?.temperatureRange?.toString() ?: ""
-//            val range=binding.treeTemp.text.toString().replace(".."," ile ") +" derece arasında"
-//            binding.treeTemp.text=range
-//            binding.treeHumadity.text = treeList.firstOrNull()?.humidityRange?.toString() ?: ""
-//            binding.treeFeatures.text = treeList.firstOrNull()?.features ?: ""
-//        }
-//    }
 
     private fun setupUI() {
         // Set gradient background for header
@@ -453,4 +546,33 @@ class HomeFragment : Fragment() {
         // Refresh chart
         chart.invalidate()
     }
+
+    //maps
+    private fun setupTabs() {
+        val scrollView = binding.root.findViewById<ScrollView>(R.id.scrollView) // ScrollView'inin id'si eğer tanımlı değilse ekle
+        val mapView = binding.root.findViewById<MapView>(R.id.mapView)
+
+        val parameterHeaderRow = binding.root.findViewById<LinearLayout>(R.id.parameterHeaderRow)
+        val tabLayout = binding.tabLayout
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.text) {
+                    "Maps" -> {
+                        scrollView.visibility = View.GONE
+                        mapView.visibility = View.VISIBLE
+                        parameterHeaderRow?.visibility = View.GONE
+                    }
+                    else -> {
+                        scrollView.visibility = View.VISIBLE
+                        mapView.visibility = View.GONE
+                        parameterHeaderRow?.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+    }
+
 }

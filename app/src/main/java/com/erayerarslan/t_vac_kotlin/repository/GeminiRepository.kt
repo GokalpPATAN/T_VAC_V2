@@ -28,14 +28,16 @@ class GeminiRepository @Inject constructor(
                 - Azot: ${sensor.azotValue}
                 - Fosfor: ${sensor.fosforValue}
                 - Potasyum: ${sensor.potasyumValue}
+                - Konum: ${sensor.locationName}
                 
-                Bu çevre koşullarına uygun **tam olarak 3 ağaç türü** öner.
+                Konum bilgisine göre bu bölgedeki bitki örtüsü ile uyumlu ve Bu çevre koşullarına uygun **tam olarak 3 ağaç türü** öner.
                 Her bir ağaç için şu bilgileri JSON formatında ver:
                 - name: Ağaç türü ismi
                 - temperatureRange: [min sıcaklık, max sıcaklık]
                 - humidityRange: [min nem, max nem]
                 - features: Kısa özellik açıklaması
                 - plantingInfo: Ağacın nasıl ekilmesi, sulanması, bakılması gerektiği
+                - locationCompatibilityNote: Bu ağacın hangi bölgeye uyumlu olduğunu açıklayan bilgi
             
                 Yanıtı sadece aşağıdaki gibi saf JSON dizisi olarak döndür (**başka hiçbir açıklama ekleme**):
             
@@ -45,7 +47,8 @@ class GeminiRepository @Inject constructor(
                     "temperatureRange": [20, 35],
                     "humidityRange": [30, 50],
                     "features": "Sıcak ve kuru iklimleri sever, az su ister.",
-                    "plantingInfo": "Zeytin fidanları sonbaharda dikilmeli. Hafif alkali ve iyi drene toprak seçilmeli. İlk 2 yıl düzenli sulama yapılmalıdır."
+                    "plantingInfo": "Zeytin fidanları sonbaharda dikilmeli. Hafif alkali ve iyi drene toprak seçilmeli. İlk 2 yıl düzenli sulama yapılmalıdır.",
+                    "locationCompatibilityNote": "Bu ağaç Ege Bölgesi'nde verimli sonuç verir."
                   },
                   ...
                 ]
@@ -67,19 +70,6 @@ class GeminiRepository @Inject constructor(
             val rawList: List<TreeRaw> = Gson().fromJson(json, treeRawType)
 
             return@withContext rawList.map { it.toTree() }
-
-            /*
-            // TreeRaw → Tree dönüştürüyoruz
-            return@withContext rawList.map { raw ->
-                Tree(
-                    name = raw.name,
-                    temperatureRange = raw.temperatureRange[0]..raw.temperatureRange[1],
-                    humidityRange = raw.humidityRange[0]..raw.humidityRange[1],
-                    features = raw.features
-                )
-            }
-
-             */
 
 
         } catch (e: Exception) {
