@@ -1,20 +1,22 @@
 package com.farukayata.t_vac_kotlin.ui.tree_detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.farukayata.t_vac_kotlin.databinding.FragmentTreeDetailBinding
-import com.farukayata.t_vac_kotlin.util.loadImage
 
 class TreeDetailFragment : Fragment() {
 
     private var _binding: FragmentTreeDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val args: TreeDetailFragmentArgs by navArgs() // SafeArgs ile veriyi alıyoruz
+    private val args: TreeDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,18 +29,55 @@ class TreeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tree = args.tree // SafeArgs ile gelen Tree nesnesi
+        val tree = args.tree
 
-        binding.treeDetailImg.loadImage(tree.img)
-        binding.treeDetailName.text = "${tree.name}"
+        Log.d("TreeDetailFragment", "Loading tree: ${tree.name}, imageUrl: ${tree.imageUrl}")
+
+        //ağaç görseli open ai ile çizilirse yani url ile gelirse glide ile yüklencek
+        if (tree.imageUrl != null) {
+            binding.progressBar.visibility = View.VISIBLE
+            Glide.with(this)
+                .load(tree.imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(tree.img)//default görsel gelcek yüklenemezse
+                .listener(object : com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable> {
+                    override fun onLoadFailed(
+                        e: com.bumptech.glide.load.engine.GlideException?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.progressBar.visibility = View.GONE
+                        Log.e("TreeDetailFragment", "Image load failed: ${e?.message}")
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: android.graphics.drawable.Drawable?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable>?,
+                        dataSource: com.bumptech.glide.load.DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.progressBar.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(binding.treeDetailImg)
+        } else {
+            binding.treeDetailImg.setImageResource(tree.img)
+        }
+
+        binding.treeDetailName.text = tree.name
         binding.treeDetailTemp.text = "${tree.temperatureRange.start} - ${tree.temperatureRange.endInclusive} °C"
         binding.treeDetailHumidity.text = "${tree.humidityRange.start} - ${tree.humidityRange.endInclusive} %"
-        binding.treeDetailFeatures.text = "${tree.features}"
-        binding.treeDetailPlantingInfo.text = "${tree.plantingInfo}"
+        binding.treeDetailFeatures.text = tree.features
+        binding.treeDetailPlantingInfo.text = tree.plantingInfo
         binding.treeDetailLocationNote.text = tree.locationNote
     }
 
     override fun onDestroyView() {
+        //memoryleak i önlemek için binding nesnesi null a çekilir
         super.onDestroyView()
         _binding = null
     }

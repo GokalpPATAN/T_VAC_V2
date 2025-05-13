@@ -6,6 +6,12 @@ if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.inputStream())
 }
 
+fun getLocalProperty(key: String): String {
+    val props = Properties()
+    props.load(rootProject.file("local.properties").inputStream())
+    return props.getProperty(key)
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -45,8 +51,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "OPENAI_API_KEY", "\"${getLocalProperty("OPENAI_API_KEY")}\"")
+        }
         release {
             isMinifyEnabled = false
+            buildConfigField("String", "OPENAI_API_KEY", "\"${getLocalProperty("OPENAI_API_KEY")}\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -118,9 +128,12 @@ dependencies {
     //OkHttp
     implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
     // Glide
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
+    //implementation ("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     val paging_version = "3.3.1"
     implementation ("androidx.paging:paging-runtime-ktx:$paging_version")

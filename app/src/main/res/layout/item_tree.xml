@@ -16,13 +16,26 @@
         android:gravity="center_horizontal"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/treeImg"
+        <FrameLayout
             android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="Tree Image"
-            tools:src="@drawable/ic_oak" />
+            android:layout_height="200dp">
+
+            <ImageView
+                android:id="@+id/treeImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="Tree Image"
+                tools:src="@drawable/ic_oak" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/treeName"
