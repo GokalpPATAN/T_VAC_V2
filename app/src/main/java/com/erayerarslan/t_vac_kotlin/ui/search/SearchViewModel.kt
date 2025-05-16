@@ -1,7 +1,9 @@
 package com.farukayata.t_vac_kotlin.ui.search
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.farukayata.t_vac_kotlin.model.SensorData
 import com.farukayata.t_vac_kotlin.model.Tree
 import com.farukayata.t_vac_kotlin.model.treeList

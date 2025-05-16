@@ -1,6 +1,7 @@
 package com.farukayata.t_vac_kotlin.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.farukayata.t_vac_kotlin.model.SensorData
 import com.farukayata.t_vac_kotlin.ui.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.fragment.findNavController
+import com.farukayata.t_vac_kotlin.model.SensorDataManager
 
 
 @AndroidEntryPoint
@@ -68,15 +70,17 @@ class SearchFragment : Fragment() {
 
         binding.aiSuggestButton.setOnClickListener {
             val sensorData = SensorData(
-                phValue = "6.5",
-                temperatureValue = "22",
-                humidityValue = "45",
-                conductibilityValue = "1.2",
-                fosforValue = "medium",
-                potasyumValue = "high",
-                azotValue = "low"
+                phValue = SensorDataManager.sensorData?.phValue ,
+                temperatureValue = SensorDataManager.sensorData?.temperatureValue,
+                humidityValue = SensorDataManager.sensorData?.humidityValue,
+                conductibilityValue = SensorDataManager.sensorData?.conductibilityValue,
+                fosforValue = SensorDataManager.sensorData?.fosforValue,
+                potasyumValue = SensorDataManager.sensorData?.potasyumValue,
+                azotValue = SensorDataManager.sensorData?.azotValue,
+                locationName = SensorDataManager.sensorData?.locationName
             )
             viewModel.fetchTreeSuggestions(sensorData)
+            Log.d("SearchResponse","$sensorData")
         }
 
     }

@@ -5,50 +5,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/treeRecyclerViewHome"
-        tools:listitem="@layout/item_tree"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/treeName"
-        tools:text="Meşe"
-        app:layout_constraintTop_toTopOf="parent"
-
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/treeTemp"
-        tools:text="25"
-        app:layout_constraintTop_toBottomOf="@+id/treeName"
-
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/treeHumadity"
-        tools:text="50"
-        app:layout_constraintTop_toBottomOf="@+id/treeTemp"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/treeFeatures"
-        tools:text="Güçlü ve dayanıklıdır, geniş alanlara ihtiyaç duyar."
-        app:layout_constraintTop_toBottomOf="@+id/treeHumadity"
-
-        />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -66,28 +22,6 @@
 
         />
 
-    <TextView
-        android:id="@+id/timeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="13:37"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/batteryText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:text="100%"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <View
         android:id="@+id/statusBar"
         android:layout_width="100dp"
@@ -103,12 +37,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeText">
+        tools:layout_editor_absoluteY="43dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headerLayout"
@@ -187,6 +120,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/totalTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="7"
@@ -207,6 +141,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/criticalTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3"
@@ -228,6 +163,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/optimalTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4"
@@ -576,26 +512,14 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/exportButton"
+            android:id="@+id/refreshDataButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:backgroundTint="#5B68DF"
             android:padding="12dp"
-            android:text="Export Data"
-            android:textAllCaps="false"
-            app:cornerRadius="16dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/analysisButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="#20B2AA"
-            android:padding="12dp"
-            android:text="Analysis"
+            android:text="Refresh Data"
             android:textAllCaps="false"
             app:cornerRadius="16dp" />
     </LinearLayout>

@@ -57,6 +57,14 @@ class DeviceViewModel @Inject constructor(
 
 
 
+    private fun loadSensorData() {
+        _sensorData.value = SensorDataManager.fetchSensorData()
+    }
+
+    init {
+        loadSensorData()
+    }
+
     fun startDiscovery() {
         if (!bluetoothAdapter.isEnabled) {
             Toast.makeText(appContext, "Bluetooth kapalı, lütfen açın!", Toast.LENGTH_SHORT).show()
@@ -212,13 +220,13 @@ class DeviceViewModel @Inject constructor(
                                 println("başarılı")
                                 viewModelScope.launch {
                                     val data = SensorData(
-                                        phValue = phValue2!!,
-                                        temperatureValue = temperatureValue2!!,
-                                        conductibilityValue = conductibilityValue2!!,
-                                        fosforValue = fosforValue2!!,
-                                        humidityValue = humidityValue2!!,
-                                        potasyumValue = potasyumValue2!!,
-                                        azotValue = azotValue2!!
+                                        phValue = phValue2?.toFloat(),
+                                        temperatureValue = temperatureValue2?.toFloat(),
+                                        conductibilityValue = conductibilityValue2?.toFloat(),
+                                        fosforValue = fosforValue2?.toFloat(),
+                                        humidityValue = humidityValue2?.toFloat(),
+                                        potasyumValue = potasyumValue2?.toFloat(),
+                                        azotValue = azotValue2?.toFloat()
                                     )
                                     saveSensorData(data)
 
@@ -335,4 +343,17 @@ class DeviceViewModel @Inject constructor(
             bondReceiver = null
         }
     }
+    fun requestNewSensorData(
+        selectedDevice: Device?,
+        onDataReceived: () -> Unit,
+        onDeviceMissing: () -> Unit
+    ) {
+        if (selectedDevice != null) {
+            listenForData(selectedDevice.bluetoothDevice)
+            onDataReceived()
+        } else {
+            onDeviceMissing()
+        }
+    }
+
 }
