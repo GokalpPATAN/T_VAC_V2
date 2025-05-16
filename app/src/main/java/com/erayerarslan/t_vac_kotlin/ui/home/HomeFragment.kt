@@ -16,18 +16,15 @@ import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.farukayata.t_vac_kotlin.R
 import com.farukayata.t_vac_kotlin.databinding.FragmentHomeBinding
 import com.farukayata.t_vac_kotlin.model.SensorData
 import com.farukayata.t_vac_kotlin.model.SensorDataManager
-import com.farukayata.t_vac_kotlin.ui.adapter.TreeAdapter
+import com.farukayata.t_vac_kotlin.ui.adapter.PlantAdapter
 import com.farukayata.t_vac_kotlin.ui.device.DeviceViewModel
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.XAxis
@@ -51,7 +48,7 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<HomeViewModel>()
     private val deviceViewModel by activityViewModels<DeviceViewModel>()
 
-    private lateinit var adapter: TreeAdapter
+    private lateinit var adapter: PlantAdapter
     private lateinit var mapView: MapView
 
     private lateinit var soilMoistureChart: HorizontalBarChart
@@ -73,7 +70,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = TreeAdapter(emptyList()) { tree ->
+        adapter = PlantAdapter(emptyList()) { tree ->
             val action = HomeFragmentDirections.actionHomeFragmentToTreeDetailFragment(tree)
             findNavController().navigate(action)
         }
@@ -148,6 +145,7 @@ class HomeFragment : Fragment() {
                         mapView.visibility = View.VISIBLE
                         parameterHeaderRow.visibility = View.GONE
                     }
+
                     else -> {
                         scrollView.visibility = View.VISIBLE
                         mapView.visibility = View.GONE
@@ -155,6 +153,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
@@ -165,7 +164,7 @@ class HomeFragment : Fragment() {
             updateChartsAndCounts(data)
             data.temperatureValue?.toInt()?.let { t ->
                 data.humidityValue?.toInt()?.let { h ->
-                    viewModel.fetchTreeList(t, h)
+                    viewModel.fetchPlantList(t, h)
                 }
             }
         }
@@ -173,7 +172,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRefreshActions() {
-
         binding.refreshDataButton.setOnClickListener {
             deviceViewModel.requestNewSensorData(
                 selectedDevice = deviceViewModel.devices.value?.find { it.isPaired },
@@ -182,7 +180,8 @@ class HomeFragment : Fragment() {
                     showAnalysisDate()
                 },
                 onDeviceMissing = {
-                    Toast.makeText(requireContext(), "Bağlı cihaz bulunamadı!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Bağlı cihaz bulunamadı!", Toast.LENGTH_SHORT)
+                        .show()
                 }
             )
         }
@@ -190,7 +189,11 @@ class HomeFragment : Fragment() {
 
     private fun setupLocationUpdates() {
         mapView.getMapAsync { googleMap ->
-            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 googleMap.isMyLocationEnabled = true
                 val client = LocationServices.getFusedLocationProviderClient(requireActivity())
                 val req = LocationRequest.create().apply {
@@ -202,7 +205,8 @@ class HomeFragment : Fragment() {
                     override fun onLocationResult(result: LocationResult) {
                         result.lastLocation?.let { loc ->
                             val geo = Geocoder(requireContext(), Locale.getDefault())
-                            val city = geo.getFromLocation(loc.latitude, loc.longitude, 1)?.firstOrNull()?.adminArea ?: "Bilinmiyor"
+                            val city = geo.getFromLocation(loc.latitude, loc.longitude, 1)
+                                ?.firstOrNull()?.adminArea ?: "Bilinmiyor"
                             viewModel.onLocationUpdated(city)
                             SensorDataManager.sensorData?.locationName = city
                         }
@@ -218,34 +222,87 @@ class HomeFragment : Fragment() {
     private fun updateChartsAndCounts(data: SensorData) {
         var normal = 0
         var critical = 0
-        fun update(chart: HorizontalBarChart, name: String, value: Float?, statusFn: (Float)->String, colorFn: (Float)->String) {
+        fun update(
+            chart: HorizontalBarChart,
+            name: String,
+            value: Float?,
+            statusFn: (Float) -> String,
+            colorFn: (Float) -> String
+        ) {
             value?.let { v ->
                 val status = statusFn(v)
                 setupParameterChart(chart, name, colorFn(v), status)
                 if (status == "Normal") normal++ else critical++
             }
         }
-        update(soilMoistureChart, "Soil Moisture", data.humidityValue, viewModel::getHumidityStatus, viewModel::getHumidityColor)
-        update(phValueChart, "pH Value", data.phValue, viewModel::getPhStatus, viewModel::getPhColor)
-        update(conductivityChart, "Conductivity", data.conductibilityValue, viewModel::getConductivityStatus, viewModel::getConductivityColor)
-        update(phosphorusChart, "Phosphorus", data.fosforValue, viewModel::getPhosphorusStatus, viewModel::getPhosphorusColor)
-        update(potassiumChart, "Potassium", data.potasyumValue, viewModel::getPotassiumStatus, viewModel::getPotassiumColor)
-        update(nitrogenChart, "Nitrogen", data.azotValue, viewModel::getNitrogenStatus, viewModel::getNitrogenColor)
-        update(temperatureChart, "Temperature", data.temperatureValue, viewModel::getTemperatureStatus, viewModel::getTemperatureColor)
+        update(
+            soilMoistureChart,
+            "Soil Moisture",
+            data.humidityValue,
+            viewModel::getHumidityStatus,
+            viewModel::getHumidityColor
+        )
+        update(
+            phValueChart,
+            "pH Value",
+            data.phValue,
+            viewModel::getPhStatus,
+            viewModel::getPhColor
+        )
+        update(
+            conductivityChart,
+            "Conductivity",
+            data.conductibilityValue,
+            viewModel::getConductivityStatus,
+            viewModel::getConductivityColor
+        )
+        update(
+            phosphorusChart,
+            "Phosphorus",
+            data.fosforValue,
+            viewModel::getPhosphorusStatus,
+            viewModel::getPhosphorusColor
+        )
+        update(
+            potassiumChart,
+            "Potassium",
+            data.potasyumValue,
+            viewModel::getPotassiumStatus,
+            viewModel::getPotassiumColor
+        )
+        update(
+            nitrogenChart,
+            "Nitrogen",
+            data.azotValue,
+            viewModel::getNitrogenStatus,
+            viewModel::getNitrogenColor
+        )
+        update(
+            temperatureChart,
+            "Temperature",
+            data.temperatureValue,
+            viewModel::getTemperatureStatus,
+            viewModel::getTemperatureColor
+        )
         binding.optimalTextView.text = normal.toString()
         binding.criticalTextView.text = critical.toString()
         binding.totalTextView.text = (normal + critical).toString()
-        Log.d("HomeResponse","$data")
+        Log.d("HomeResponse", "$data")
     }
 
-    private fun setupParameterChart(chart: HorizontalBarChart, parameter: String, colorHex: String, status: String) {
+    private fun setupParameterChart(
+        chart: HorizontalBarChart,
+        parameter: String,
+        colorHex: String,
+        status: String
+    ) {
         val barValue = when (status) {
-            "Very Low"  -> 0.10f
-            "Low"      -> 0.25f
-            "Normal"   -> 0.50f
-            "High"     -> 0.75f
-            "Very High"-> 1.0f
-            else        -> 0f
+            "Very Low" -> 0.10f
+            "Low" -> 0.25f
+            "Normal" -> 0.50f
+            "High" -> 0.75f
+            "Very High" -> 1.0f
+            else -> 0f
         }
         val entries = arrayListOf(com.github.mikephil.charting.data.BarEntry(0f, barValue))
         val dataSet = com.github.mikephil.charting.data.BarDataSet(entries, parameter).apply {
@@ -256,13 +313,13 @@ class HomeFragment : Fragment() {
         chart.data = data
         val idx = when (parameter) {
             "Soil Moisture" -> 0
-            "pH Value"      -> 1
-            "Conductivity"  -> 2
-            "Phosphorus"    -> 3
-            "Potassium"     -> 4
-            "Nitrogen"      -> 5
-            "Temperature"   -> 6
-            else             -> -1
+            "pH Value" -> 1
+            "Conductivity" -> 2
+            "Phosphorus" -> 3
+            "Potassium" -> 4
+            "Nitrogen" -> 5
+            "Temperature" -> 6
+            else -> -1
         }
         if (idx >= 0) {
             binding.root.findViewById<TextView>(

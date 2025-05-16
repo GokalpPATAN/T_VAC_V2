@@ -1,30 +1,62 @@
 package com.farukayata.t_vac_kotlin.ui.home
 
+import com.farukayata.t_vac_kotlin.model.Plant
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.farukayata.t_vac_kotlin.model.SensorData
 import com.farukayata.t_vac_kotlin.model.SensorDataManager
-import com.farukayata.t_vac_kotlin.model.Tree
-import com.farukayata.t_vac_kotlin.model.treeList
+import com.google.firebase.database.DatabaseError
 
 class HomeViewModel : ViewModel() {
 
+    // Son alınan sensör verisi
     private val _sensorData = MutableLiveData<SensorData>()
     val sensorData: LiveData<SensorData> get() = _sensorData
 
-    private val _filteredTreeList = MutableLiveData<List<Tree>>()
-    val filteredTreeList: LiveData<List<Tree>> get() = _filteredTreeList
+    // Tüm bitkileri tutan lokal liste
+    private var localPlantList: List<Plant> = emptyList()
+
+    // Sıcaklığa/numiditeye göre filtrelenmiş liste
+    private val _filteredPlantList = MutableLiveData<List<Plant>>(emptyList())
+    val filteredPlantList: LiveData<List<Plant>> get() = _filteredPlantList
 
     init {
+        // Sensör datasını al
         refreshSensorData()
+
+        // Firebase'den tüm Plant verisini çek
+        Plant.fetchAll(
+            onResult = { list ->
+                localPlantList = list
+                // Başlangıçta tüm listeyi göster veya ilk sensör datasına göre filtrele
+                val current = _sensorData.value
+                if (current != null) {
+                    fetchPlantList(current.temperatureValue?.toInt() ?: 0,
+                        current.humidityValue?.toInt() ?: 0)
+                } else {
+                    _filteredPlantList.value = list
+                }
+            },
+            onError = { error: DatabaseError ->
+                // Hata durumunda boş liste
+                _filteredPlantList.value = emptyList()
+            }
+        )
     }
 
+    /**
+     * Sensör verisini yeniler ve LiveData'ya atar.
+     */
     fun refreshSensorData() {
-        val data = SensorDataManager.fetchSensorData()
+        val data: SensorData = SensorDataManager.fetchSensorData()
+        SensorDataManager.sensorData = data
         _sensorData.value = data
     }
 
+    /**
+     * Konum güncellendiğinde sensör verisindeki lokasyonu da güncelle
+     */
     fun onLocationUpdated(cityName: String) {
         val current = _sensorData.value ?: SensorDataManager.fetchSensorData()
         val updated = current.copy(locationName = cityName)
@@ -32,10 +64,16 @@ class HomeViewModel : ViewModel() {
         _sensorData.value = updated
     }
 
-    fun fetchTreeList(temperature: Int, humidity: Int) {
-        val list = treeList.filter { it.isSuitable(temperature, humidity) }
-        _filteredTreeList.value = list
+    /**
+     * Sıcaklık ve nem değerlerine göre localPlantList'i filtreler
+     */
+    fun fetchPlantList(temperature: Int, humidity: Int) {
+        val filtered = localPlantList.filter { it.isSuitable(temperature, humidity) }
+        _filteredPlantList.value = filtered
     }
+
+    // PH status/color ve diğer parametre metotları... (aynı kaldı)
+    // ...
 
     fun getPhStatus(value: Float): String = when {
         value < 5.0f -> "Very Low"

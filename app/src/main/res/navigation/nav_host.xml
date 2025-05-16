@@ -74,7 +74,8 @@
 
         <argument
             android:name="tree"
-            app:argType="com.farukayata.t_vac_kotlin.model.Tree" />
+            app:argType="com.farukayata.t_vac_kotlin.model.Plant"
+            app:nullable="false"/>
 
     </fragment>
 </navigation>

@@ -1,23 +1,29 @@
 package com.farukayata.t_vac_kotlin.model
 
+import com.farukayata.t_vac_kotlin.model.Plant
 
-//gemini JSON cevab gelicek onu Gson ile TreeRaw listesine çeviriyoruz
+/**
+ * Gemini API'den gelen ham JSON veri modeli.
+ */
 data class TreeRaw(
     val name: String,
     val temperatureRange: List<Int>,
     val humidityRange: List<Int>,
     val features: String,
     val plantingInfo: String,
-    val locationCompatibilityNote: String?
+    val locationCompatibilityNote: String? = null
 )
 
-fun TreeRaw.toTree(): Tree {
-    return Tree(
-        name = name,
-        temperatureRange = temperatureRange[0]..temperatureRange[1],
-        humidityRange = humidityRange[0]..humidityRange[1],
-        features = features,
-        plantingInfo = plantingInfo,
-        locationNote = locationCompatibilityNote ?: ""
-    )
-}
+/**
+ * TreeRaw nesnesini uygulamada kullandığımız Plant modeline dönüştürür.
+ */
+fun TreeRaw.toPlant(): Plant = Plant(
+    name = this.name,
+    category = "",                            // Gerekirse kategori eklenebilir
+    temperatureRange = this.temperatureRange,
+    humidityRange = this.humidityRange,
+    features = this.features,
+    img = "",                                 // Varsayılan resim URL'i boş
+    plantingInfo = this.plantingInfo,
+    locationNote = this.locationCompatibilityNote ?: ""
+)

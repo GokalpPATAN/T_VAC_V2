@@ -1,5 +1,6 @@
 package com.farukayata.t_vac_kotlin.ui.tree_detail
 
+import com.farukayata.t_vac_kotlin.model.Plant
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.farukayata.t_vac_kotlin.R
 import com.farukayata.t_vac_kotlin.databinding.FragmentTreeDetailBinding
 
 class TreeDetailFragment : Fragment() {
@@ -19,7 +21,8 @@ class TreeDetailFragment : Fragment() {
     private val args: TreeDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTreeDetailBinding.inflate(inflater, container, false)
@@ -29,17 +32,18 @@ class TreeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tree = args.tree
+        // NavArgs ile gelen Plant objesi
+        val plant: Plant = args.tree
+        Log.d("TreeDetailFragment", "Loading plant: ${'$'}{plant.name}, img: ${'$'}{plant.img}")
 
-        Log.d("TreeDetailFragment", "Loading tree: ${tree.name}, imageUrl: ${tree.imageUrl}")
-
-        //ağaç görseli open ai ile çizilirse yani url ile gelirse glide ile yüklencek
-        if (tree.imageUrl != null) {
+        // Görseli Glide ile yükle veya placeholder göster
+        if (plant.img.isNotBlank()) {
             binding.progressBar.visibility = View.VISIBLE
             Glide.with(this)
-                .load(tree.imageUrl)
+                .load(plant.img)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(tree.img)//default görsel gelcek yüklenemezse
+                .placeholder(R.drawable.ic_default_tree)
+                .error(R.drawable.ic_default_tree)
                 .listener(object : com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable> {
                     override fun onLoadFailed(
                         e: com.bumptech.glide.load.engine.GlideException?,
@@ -48,7 +52,7 @@ class TreeDetailFragment : Fragment() {
                         isFirstResource: Boolean
                     ): Boolean {
                         binding.progressBar.visibility = View.GONE
-                        Log.e("TreeDetailFragment", "Image load failed: ${e?.message}")
+                        Log.e("TreeDetailFragment", "Image load failed: ${'$'}{e?.message}")
                         return false
                     }
 
@@ -65,19 +69,30 @@ class TreeDetailFragment : Fragment() {
                 })
                 .into(binding.treeDetailImg)
         } else {
-            binding.treeDetailImg.setImageResource(tree.img)
+            binding.treeDetailImg.setImageResource(R.drawable.ic_default_tree)
         }
 
-        binding.treeDetailName.text = tree.name
-        binding.treeDetailTemp.text = "${tree.temperatureRange.start} - ${tree.temperatureRange.endInclusive} °C"
-        binding.treeDetailHumidity.text = "${tree.humidityRange.start} - ${tree.humidityRange.endInclusive} %"
-        binding.treeDetailFeatures.text = tree.features
-        binding.treeDetailPlantingInfo.text = tree.plantingInfo
-        binding.treeDetailLocationNote.text = tree.locationNote
+        // Metin alanlarını doldur
+        binding.treeDetailName.text = plant.name
+
+        binding.treeDetailTemp.text = if (plant.temperatureRange.isNotEmpty()) {
+            "${'$'}{plant.temperatureRange.first()} - ${'$'}{plant.temperatureRange.last()} °C"
+        } else {
+            "Veri yok"
+        }
+
+        binding.treeDetailHumidity.text = if (plant.humidityRange.isNotEmpty()) {
+            "${'$'}{plant.humidityRange.first()} - ${'$'}{plant.humidityRange.last()} %"
+        } else {
+            "Veri yok"
+        }
+
+        binding.treeDetailFeatures.text = plant.features
+        binding.treeDetailPlantingInfo.text = plant.plantingInfo
+        binding.treeDetailLocationNote.text = plant.locationNote
     }
 
     override fun onDestroyView() {
-        //memoryleak i önlemek için binding nesnesi null a çekilir
         super.onDestroyView()
         _binding = null
     }

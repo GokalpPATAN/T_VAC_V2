@@ -1,10 +1,10 @@
 package com.farukayata.t_vac_kotlin.repository
 
+import com.farukayata.t_vac_kotlin.model.Plant
 import android.util.Log
 import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.model.Tree
 import com.farukayata.t_vac_kotlin.model.TreeRaw
-import com.farukayata.t_vac_kotlin.model.toTree
+import com.farukayata.t_vac_kotlin.model.toPlant
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -16,7 +16,7 @@ class GeminiRepository @Inject constructor(
     private val model: GenerativeModel
 ) {
 
-    suspend fun getSuggestions(sensor: SensorData): List<Tree> = withContext(Dispatchers.IO) {
+    suspend fun getSuggestions(sensor: SensorData): List<Plant> = withContext(Dispatchers.IO) {
         try {
             val prompt = """
                 Sen akıllı bir tarım asistanısın.
@@ -30,14 +30,14 @@ class GeminiRepository @Inject constructor(
                 - Potasyum: ${sensor.potasyumValue}
                 - Konum: ${sensor.locationName}
                 
-                Konum bilgisine göre bu bölgedeki bitki örtüsü ile uyumlu ve Bu çevre koşullarına uygun **tam olarak 3 ağaç türü** öner.
-                Her bir ağaç için şu bilgileri JSON formatında ver:
-                - name: Ağaç türü ismi
+                Konum bilgisine göre bu bölgedeki bitki örtüsü ile uyumlu ve Bu çevre koşullarına uygun **tam olarak 5 sebze,meyve veya bitki türü** öner.
+                Her bir sebze,meyve veya bitkinin için şu bilgileri JSON formatında ver:
+                - name: Sebze,meyve veya bitkinin türü ismi
                 - temperatureRange: [min sıcaklık, max sıcaklık]
                 - humidityRange: [min nem, max nem]
                 - features: Kısa özellik açıklaması
-                - plantingInfo: Ağacın nasıl ekilmesi, sulanması, bakılması gerektiği
-                - locationCompatibilityNote: Bu ağacın hangi bölgeye uyumlu olduğunu açıklayan bilgi
+                - plantingInfo: Sebze,meyve veya bitkinin nasıl ekilmesi, sulanması, bakılması gerektiği
+                - locationCompatibilityNote: Sebze,meyve veya bitkinin hangi bölgeye uyumlu olduğunu açıklayan bilgi
             
                 Yanıtı sadece aşağıdaki gibi saf JSON dizisi olarak döndür (**başka hiçbir açıklama ekleme**):
             
@@ -54,14 +54,9 @@ class GeminiRepository @Inject constructor(
                 ]
             """.trimIndent()
 
-
             val response = model.generateContent(prompt)
 
-            val json = response.text
-                ?.replace("```json", "")
-                ?.replace("```", "")
-                ?.trim()
-                ?: "[]"
+            val json = response.text?.replace("```json", "")?.replace("```", "")?.trim() ?: "[]"
 
             Log.d("GEMINI_RAW", "Yanıt: $json")
 
@@ -69,7 +64,7 @@ class GeminiRepository @Inject constructor(
             val treeRawType = object : TypeToken<List<TreeRaw>>() {}.type
             val rawList: List<TreeRaw> = Gson().fromJson(json, treeRawType)
 
-            return@withContext rawList.map { it.toTree() }
+            return@withContext rawList.map { it.toPlant() }
 
 
         } catch (e: Exception) {

@@ -1,13 +1,14 @@
 package com.farukayata.t_vac_kotlin.ui.search
 
+import com.farukayata.t_vac_kotlin.model.Plant
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.model.Tree
-import com.farukayata.t_vac_kotlin.model.treeList
 import com.farukayata.t_vac_kotlin.repository.GeminiRepository
+import com.google.firebase.database.DatabaseError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,58 +20,78 @@ class SearchViewModel @Inject constructor(
     private val geminiRepository: GeminiRepository
 ) : ViewModel() {
 
-    //ai dan öncesi ve sonrası liste farkını anlamak için flag niyetine attık
+    // AI önerileri aktif mi?
     val isAIActive = MutableStateFlow(false)
 
-    // Arama kutusu için (mevcut yapı korunur)
-    private val _filteredTreeListSearch = MutableLiveData<List<Tree>>()
-    val filteredTreeListSearch: LiveData<List<Tree>> get() = _filteredTreeListSearch
+    // Ekrana yansıyacak, arama ve öneri sonrası filtrelenmiş liste
+    private val _filteredPlantList = MutableLiveData<List<Plant>>(emptyList())
+    val filteredPlantList: LiveData<List<Plant>> get() = _filteredPlantList
 
-    private val _suggestedTrees = MutableStateFlow<List<Tree>>(emptyList())
-    val suggestedTrees: StateFlow<List<Tree>> = _suggestedTrees
+    // AI’den gelen öneri listesi
+    private val _suggestedPlants = MutableStateFlow<List<Plant>>(emptyList())
+    val suggestedPlants: StateFlow<List<Plant>> = _suggestedPlants
 
-    private val localTreeList = treeList.toList()
+    // Firebase’den çektiğimiz tüm bitkileri tutan lokal değişken
+    private var localPlantList: List<Plant> = emptyList()
 
+    init {
+        // Uygulama açılır açılmaz Firebase’den veriyi çek
+        Plant.fetchAll(
+            onResult = { list ->
+                localPlantList = list                // Lokal listeyi güncelle
+                _filteredPlantList.value = list      // UI’da da göster
+                Log.d("SearchViewModel", "Veri çekildi: ${list} adet veri")
+            },
+            onError = { error: DatabaseError ->
+                Log.e("SearchViewModel", "Veri çekilemedi: ${error.message}")
+            }
+        )
+    }
 
-    // Bu fonksiyon artık aktif listeye göre çalışacak
-    fun fetchTreeList(query: String) {
-        val activeList = if (isAIActive.value) {
-            suggestedTrees.value
+    /**
+     * Arama kutusuna her karakter girildiğinde çağrılır.
+     * AI aktifse öneri listesini, değilse lokal listeyi filtreler.
+     */
+    fun fetchPlantList(query: String) {
+        val source = if (isAIActive.value) {
+            _suggestedPlants.value
         } else {
-            localTreeList
+            localPlantList
         }
 
         val filtered = if (query.isBlank()) {
-            activeList
-            //arama kutusunun boşluk olma olayında etkin
+            source
         } else {
-            activeList.filter { it.nameFilter(query) }
+            source.filter { it.nameFilter(query) }
         }
 
-        _filteredTreeListSearch.value = filtered
+        _filteredPlantList.value = filtered
     }
 
-
-    //AI önerileri için yeni yapı
-    fun fetchTreeSuggestions(sensorData: SensorData) {
+    /**
+     * Sensör verisine göre Gemini API’dan öneri alır.
+     * Başarılıysa AI modunu açar ve önerileri gösterir.
+     */
+    fun fetchPlantSuggestions(sensorData: SensorData) {
         viewModelScope.launch {
             try {
-                val trees = geminiRepository.getSuggestions(sensorData)
-                _suggestedTrees.value = trees
+                val suggestions = geminiRepository.getSuggestions(sensorData)
+                _suggestedPlants.value = suggestions
                 isAIActive.value = true
-                _filteredTreeListSearch.value = trees // Ekranda hemen gözüksün
+                _filteredPlantList.value = suggestions
             } catch (e: Exception) {
-                e.printStackTrace()
-                _suggestedTrees.value = emptyList()
-                _filteredTreeListSearch.value = emptyList()
+                Log.e("SearchViewModel", "Öneri alınamadı", e)
+                _suggestedPlants.value = emptyList()
+                _filteredPlantList.value = emptyList()
             }
         }
     }
 
-    //search sayfasına tıkladık lokal listemiz gözüktü
+    /**
+     * Search ekranına her döndüğünüzde lokal listeyi (AI kapalı) tekrar yüklersiniz.
+     */
     fun loadInitialList() {
-        _filteredTreeListSearch.value = localTreeList
         isAIActive.value = false
+        _filteredPlantList.value = localPlantList
     }
-
 }
