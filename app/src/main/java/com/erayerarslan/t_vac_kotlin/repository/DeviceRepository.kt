@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.repository
+package com.erayerarslan.t_vac_kotlin.repository
 
 import androidx.lifecycle.LiveData
 import com.farukayata.t_vac_kotlin.model.Device

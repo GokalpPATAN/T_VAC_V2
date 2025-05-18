@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.repository.GeminiRepository
+import com.erayerarslan.t_vac_kotlin.repository.GeminiRepository
 import com.google.firebase.database.DatabaseError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
