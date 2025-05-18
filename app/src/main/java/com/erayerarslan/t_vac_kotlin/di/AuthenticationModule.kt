@@ -1,7 +1,7 @@
 package com.farukayata.t_vac_kotlin.di
 
-import com.farukayata.t_vac_kotlin.repository.AuthenticationRepository
-import com.farukayata.t_vac_kotlin.repository.AuthenticationRepositoryImpl
+import com.farukayata.t_vac_kotlin.domain.repository.AuthenticationRepository
+import com.farukayata.t_vac_kotlin.domain.repository.AuthenticationRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -17,8 +17,4 @@ object AuthenticationModule {
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
-    @Provides
-    @Singleton
-    fun provideAuthenticationRepository(auth: FirebaseAuth): AuthenticationRepository =
-        AuthenticationRepositoryImpl(auth)
 }

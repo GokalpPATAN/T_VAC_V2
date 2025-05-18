@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.repository
+package com.farukayata.t_vac_kotlin.domain.repository
 
 import com.farukayata.t_vac_kotlin.core.Response
 import com.google.firebase.auth.AuthResult
