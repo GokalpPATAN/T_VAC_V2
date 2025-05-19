@@ -76,13 +76,13 @@ class TreeDetailFragment : Fragment() {
         binding.treeDetailName.text = plant.name
 
         binding.treeDetailTemp.text = if (plant.temperatureRange.isNotEmpty()) {
-            "${'$'}{plant.temperatureRange.first()} - ${'$'}{plant.temperatureRange.last()} °C"
+            "${plant.temperatureRange.first()} - ${plant.temperatureRange.last()} °C"
         } else {
             "Veri yok"
         }
 
         binding.treeDetailHumidity.text = if (plant.humidityRange.isNotEmpty()) {
-            "${'$'}{plant.humidityRange.first()} - ${'$'}{plant.humidityRange.last()} %"
+            "${plant.humidityRange.first()} - ${plant.humidityRange.last()} %"
         } else {
             "Veri yok"
         }
