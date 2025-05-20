@@ -15,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import java.util.regex.Pattern
@@ -50,7 +52,7 @@ class BluetoothRepositoryImpl @Inject constructor(
                 adapter.cancelDiscovery()
                 context.unregisterReceiver(receiver)
             }
-        }.first()
+        }.take(5).toList().last()
     }
 
     override suspend fun pairDevice(device: Device): Boolean = withContext(Dispatchers.IO) {
@@ -65,7 +67,10 @@ class BluetoothRepositoryImpl @Inject constructor(
                     }
                 }
             }
-            context.registerReceiver(receiver, IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED))
+            context.registerReceiver(
+                receiver,
+                IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
+            )
             bt.createBond()
             kotlinx.coroutines.delay(3000)
             context.unregisterReceiver(receiver)
@@ -82,8 +87,9 @@ class BluetoothRepositoryImpl @Inject constructor(
         val input = socket.inputStream
         val dataMap = mutableMapOf<String, String>()
         while (dataMap.size < 7) {
-            val bytes = input.read(ByteArray(128))
-            buffer.append(String(ByteArray(128), 0, bytes))
+            val byteArray = ByteArray(128)
+            val bytes = input.read(byteArray)
+            buffer.append(String(byteArray, 0, bytes))
             if (buffer.contains("\n")) {
                 val msg = buffer.toString().also { buffer.clear() }
                 extract("pH", msg)?.let { dataMap["ph"] = it }
