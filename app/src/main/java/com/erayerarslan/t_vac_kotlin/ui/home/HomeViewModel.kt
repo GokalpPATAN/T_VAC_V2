@@ -7,6 +7,7 @@ import com.farukayata.t_vac_kotlin.domain.usecase.FetchSensorDataUseCase
 import com.farukayata.t_vac_kotlin.domain.usecase.GetLatestSensorDataUseCase
 import com.farukayata.t_vac_kotlin.model.SensorData
 import com.farukayata.t_vac_kotlin.model.SensorDataManager
+import com.farukayata.t_vac_kotlin.model.SensorDataManager.fetchSensorData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,53 +26,33 @@ class HomeViewModel @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Init)
+    private val _uiState     = MutableStateFlow<HomeUiState>(HomeUiState.Init)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     private val _selectedTab = MutableStateFlow(Tab.PARAMETERS)
     val selectedTab: StateFlow<Tab> = _selectedTab.asStateFlow()
 
-    init {
-        refreshSensorData()
+    init { refreshSensorData() }
+
+    fun refreshSensorData() = viewModelScope.launch {
+        flow { emit(fetchSensorData()) }
+            .onStart { _uiState.value = HomeUiState.Loading }
+            .catch   { _uiState.value = HomeUiState.Error(it.localizedMessage ?: "Beklenmeyen hata") }
+            .collect { _uiState.value = HomeUiState.Success(it, buildCharts(it)) }
     }
 
-    fun refreshSensorData() {
-        viewModelScope.launch {
-            flow {
-                // suspend fonksiyondan veri çek
-                val data: SensorData = fetchSensorDataUseCase()
-                emit(data)
-            }
-                .onStart { _uiState.value = HomeUiState.Loading }
-                .catch { e ->
-                    _uiState.value = HomeUiState.Error(e.localizedMessage ?: "Beklenmeyen hata")
-                }
-                .collect { data ->
-                    val charts = buildCharts(data)
-                    _uiState.value = HomeUiState.Success(data, charts)
-                }
-        }
+    fun onTabSelected(tab: Tab) { _selectedTab.value = tab }
+
+    /** Konum adını (şehir) en güncel ölçüme ekler. */
+    fun updateLocation(city: String) = viewModelScope.launch {
+        val latest = getLatestSensorDataUseCase() ?: return@launch            // 🔄
+        val updated = latest.copy(locationName = city)
+        SensorDataManager.addSensorData(updated)                              // 🔄
+        val charts = buildCharts(updated)
+        _uiState.value = HomeUiState.Success(updated, charts)
     }
 
-    fun onTabSelected(tab: Tab) {
-        _selectedTab.value = tab
-    }
-
-    fun updateLocation(city: String) {
-        // LiveData’deki gibi değil, akış üzerinden güncelle
-        viewModelScope.launch {
-            // en son çekilen sensör datası
-            val current = (_uiState.value as? HomeUiState.Success)?.sensorData
-                ?: getLatestSensorDataUseCase()
-            current?.let {
-                val updated = it.copy(locationName = city)
-                SensorDataManager.sensorData = updated
-                val charts = buildCharts(updated)
-                _uiState.value = HomeUiState.Success(updated, charts)
-            }
-        }
-    }
-
+    /* buildCharts() ve yardımcı fonksiyonların TAMAMI değişmedi */
     private fun buildCharts(data: SensorData): List<ParameterChart> =
         listOf(
             makeChart("Soil Moisture", data.humidityValue, ::getHumidityStatus, ::getHumidityColor),
@@ -222,4 +203,3 @@ class HomeViewModel @Inject constructor(
         else -> "#FF0000"
     }
 }
-

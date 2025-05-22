@@ -18,11 +18,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Yatay ProgressBar (sabit genişlik) -->
+    <!-- Yatay ProgressBar (sabit genişlik)
+     android:layout_width="200dp"-->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="200dp"
+
+        android:maxWidth="200dp"
         android:layout_height="8dp"
         android:max="100"
         android:progress="50"
