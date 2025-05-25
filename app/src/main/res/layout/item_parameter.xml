@@ -14,18 +14,18 @@
         android:layout_height="wrap_content"
         android:text="Soil Moisture"
         android:textSize="14sp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Yatay ProgressBar (sabit genişlik)
-     android:layout_width="200dp"-->
+    <!-- Yatay ProgressBar (sabit genişlik) -->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-
-        android:maxWidth="200dp"
+        android:layout_width="0dp"
         android:layout_height="8dp"
+        android:layout_marginHorizontal="16dp"
         android:max="100"
         android:progress="50"
         android:layout_marginEnd="16dp"
