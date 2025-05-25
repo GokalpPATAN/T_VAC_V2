@@ -18,10 +18,12 @@ import com.farukayata.t_vac_kotlin.R
 import com.farukayata.t_vac_kotlin.databinding.ItemTreeBinding
 import com.farukayata.t_vac_kotlin.api.OpenAIClient
 import com.farukayata.t_vac_kotlin.api.ImageGenerationRequest
+import com.farukayata.t_vac_kotlin.ui.search.SearchViewModel
 import kotlinx.coroutines.*
 
 class SearchAdapter(
     private var plantList: List<Plant>,
+    private val viewModel: SearchViewModel,
     private val onItemClick: (Plant) -> Unit
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
@@ -122,6 +124,7 @@ class SearchAdapter(
                                 val updated = plant.copy(img = url)
                                 plantList = plantList.toMutableList().apply { set(pos, updated) }
                                 notifyItemChanged(pos)
+                                viewModel.updateSuggestedPlantImage(plant.name, url)
                             }
                         } else {
                             binding.progressBar.visibility = View.GONE

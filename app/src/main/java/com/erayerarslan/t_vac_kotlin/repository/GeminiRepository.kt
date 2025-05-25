@@ -30,7 +30,7 @@ class GeminiRepository @Inject constructor(
                 - Potasyum: ${sensor.potasyumValue}
                 - Konum: ${sensor.locationName}
                 
-                Konum bilgisine göre bu bölgedeki bitki örtüsü ile uyumlu ve Bu çevre koşullarına uygun **tam olarak 3 sebze,meyve veya bitki türü** öner.
+                Konum bilgisine göre bu bölgedeki bitki örtüsü ile uyumlu ve Bu çevre koşullarına uygun **tam olarak 3 sebze,meyve, bitki türü veya ağaç türü** öner.
                 Her bir sebze,meyve veya bitkinin için şu bilgileri JSON formatında ver:
                 - name: Sebze,meyve veya bitkinin türü ismi
                 - temperatureRange: [min sıcaklık, max sıcaklık]

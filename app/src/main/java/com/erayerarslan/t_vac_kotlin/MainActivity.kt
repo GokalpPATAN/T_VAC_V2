@@ -10,6 +10,7 @@ import com.farukayata.t_vac_kotlin.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
+import com.farukayata.t_vac_kotlin.ui.components.CustomToolbar
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,8 +28,31 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
 
+        val customToolbar = binding.customToolbar
+        customToolbar.onBackClick = { onBackPressedDispatcher.onBackPressed() }
+        //customToolbar.onHomeClick = { navController.popBackStack(navController.graph.startDestinationId, false) }
+        customToolbar.onHomeClick = {
+            navController.popBackStack(navController.graph.startDestinationId, false)
+            binding.bottomNavigation.selectedItemId = R.id.homeFragment
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.treeDetailFragment -> {
+                    showToolbar()
+                    customToolbar.setTitle("T-VAC")
+                    customToolbar.showBack(true)
+                    customToolbar.showHome(true)
+                }
+                // Diğer fragmentlar için toolbarı gizle
+                else -> {
+                    hideToolbar()
+                }
+            }
+        }
+
         // BottomNavigationView ile NavController'ı bağla
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val bottomNavigationView = binding.bottomNavigation
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeFragment -> {
@@ -39,19 +63,17 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.searchFragment)
                     true
                 }
-
-
                 else -> false
             }
         }
-
-
     }
 
-
-
-
-
+    private fun showToolbar() {
+        binding.customToolbar.visibility = View.VISIBLE
+    }
+    private fun hideToolbar() {
+        binding.customToolbar.visibility = View.GONE
+    }
 
     private fun createBottomNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -59,18 +81,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
-    fun showBottomNavigationView() {
-        binding.bottomNavigation.visibility = View.VISIBLE
-    }
-
-    fun hideBottomNavigationView() {
-        binding.bottomNavigation.visibility = View.GONE
-    }
-
-
-
 
     override fun onSupportNavigateUp(): Boolean {
 
