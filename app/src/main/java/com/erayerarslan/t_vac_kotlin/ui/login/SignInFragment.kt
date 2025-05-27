@@ -67,8 +67,8 @@ class SignInFragment : Fragment() {
 
                     is Response.Error -> {
                         Log.d("SignInFragment", "Error state: ${response.message}")
-                        Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT)
-                            .show()
+                        //Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT)
+                            //.show()
                     }
 
                     else -> {

@@ -95,9 +95,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                     is HomeUiState.Error -> {
                         binding.progressBar.isVisible = false
-                        Toast.makeText(requireContext(),
-                            state.message, Toast.LENGTH_LONG).show()
+                        //Toast.makeText(requireContext(),
+                            //state.message, Toast.LENGTH_LONG).show()
                     }
+
+                    else -> {}
                 }
             }
         }
@@ -124,8 +126,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         homeViewModel.refreshSensorData()
                     }
                     is DeviceUiState.Error -> {
-                        Toast.makeText(requireContext(),
-                            state.message, Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(),
+                            //state.message, Toast.LENGTH_SHORT).show()
                     }
                     else -> Unit
                 }
@@ -136,11 +138,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.refreshDataButton.setOnClickListener {
             pairedDevice?.let { device ->
                 deviceViewModel.pairAndFetch(device)
-            } ?: Toast.makeText(
-                requireContext(),
-                "Bağlı cihaz bulunamadı!",
-                Toast.LENGTH_SHORT
-            ).show()
+            } ?:return@setOnClickListener
+
+            //Toast.makeText(requireContext(), "Bağlı cihaz bulunamadı!", Toast.LENGTH_SHORT).show()
         }
 
         // 5) Konum izleme

@@ -34,7 +34,7 @@ class DeviceFragment : Fragment(R.layout.fragment_device) {
         if (perms.values.all { it }) {
             startDiscovery()
         } else {
-            Toast.makeText(requireContext(), "Bluetooth taraması için gerekli izinler reddedildi", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(), "Bluetooth taraması için gerekli izinler reddedildi", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -71,25 +71,25 @@ class DeviceFragment : Fragment(R.layout.fragment_device) {
                         binding.btnStartDiscovery.isEnabled = true
                         adapter.updateDeviceList(state.devices)
                         if (state.devices.isEmpty()) {
-                            Toast.makeText(requireContext(),
-                                "Hiç Bluetooth cihazı bulunamadı. Lütfen Bluetooth'un açık olduğundan emin olun.",
-                                Toast.LENGTH_LONG).show()
+                            //Toast.makeText(requireContext(),
+                              //  "Hiç Bluetooth cihazı bulunamadı. Lütfen Bluetooth'un açık olduğundan emin olun.",
+                                //Toast.LENGTH_LONG).show()
                         }
                     }
                     is DeviceUiState.SensorDataLoaded -> {
                         binding.progressBar.isVisible = false
                         binding.btnStartDiscovery.isEnabled = true
-                        Toast.makeText(requireContext(),
-                            "Veri alındı: ${state.data}",
-                            Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(),
+                          //  "Veri alındı: ${state.data}",
+                            //Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     }
                     is DeviceUiState.Error -> {
                         binding.progressBar.isVisible = false
                         binding.btnStartDiscovery.isEnabled = true
-                        Toast.makeText(requireContext(),
-                            state.message,
-                            Toast.LENGTH_LONG).show()
+                        //Toast.makeText(requireContext(),
+                            //state.message,
+                            //Toast.LENGTH_LONG).show()
                     }
                 }
             }

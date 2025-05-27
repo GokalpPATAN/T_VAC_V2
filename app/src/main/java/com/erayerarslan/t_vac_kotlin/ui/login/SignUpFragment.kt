@@ -51,13 +51,13 @@ class SignUpFragment : Fragment() {
                         Log.d("SignUpFragment", "Loading state")
                     }
                     is Response.Success -> {
-                        Toast.makeText(requireContext(), "Sign-up successful", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), "Sign-up successful", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
                     }
 
                     is Response.Error -> {
                         Log.d("SignUpFragment", "Error state: ${response.message}")
-                        Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }

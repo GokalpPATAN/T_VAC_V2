@@ -61,7 +61,7 @@ class SearchFragment : Fragment() {
         binding.aiSuggestButton.setOnClickListener {
             val currentSensorData = SensorDataManager.getLatestSensorData()
             if (currentSensorData == null) {
-                Toast.makeText(requireContext(), "Sensör verisi bulunamadı veya süresi dolmuş", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Sensör verisi bulunamadı veya süresi dolmuş", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             Log.d("SearchFragment", "Kullanılan sensör verileri: $currentSensorData")
