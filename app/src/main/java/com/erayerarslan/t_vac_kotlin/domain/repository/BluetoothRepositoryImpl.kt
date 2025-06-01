@@ -38,8 +38,15 @@ class BluetoothRepositoryImpl @Inject constructor(
         }
 
         if (!adapter.isEnabled) {
-            Log.e("BluetoothDiscovery", "Bluetooth kapalı!")
-            return@withContext emptyList()
+            val enableBt = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(enableBt)
+            // Kullanıcı yanıtını beklemek için 3 sn kadar uyku, sonra durum kontrolü
+            kotlinx.coroutines.delay(3000)
+            if (!adapter.isEnabled) {
+                Log.e("BluetoothDiscovery", "Bluetooth hâlâ kapalı!")
+                return@withContext emptyList<Device>()
+            }
         }
 
         callbackFlow {
