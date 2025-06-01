@@ -1,6 +1,6 @@
-package com.farukayata.t_vac_kotlin.ui.home
+package com.erayerarslan.t_vac_kotlin.ui.home
 
-import com.farukayata.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.SensorData
 
 sealed class HomeUiState {
     object Init    : HomeUiState()

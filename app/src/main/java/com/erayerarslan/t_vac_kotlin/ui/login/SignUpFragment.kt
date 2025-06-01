@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.ui.login
+package com.erayerarslan.t_vac_kotlin.ui.login
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -11,9 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.farukayata.t_vac_kotlin.R
-import com.farukayata.t_vac_kotlin.core.Response
-import com.farukayata.t_vac_kotlin.databinding.FragmentSignUpBinding
+import com.erayerarslan.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.core.Response
+import com.erayerarslan.t_vac_kotlin.databinding.FragmentSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

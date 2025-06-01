@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.farukayata.t_vac_kotlin.ui.login.SignInFragment"
+        android:name="com.erayerarslan.t_vac_kotlin.ui.login.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.farukayata.t_vac_kotlin.ui.login.SignUpFragment"
+        android:name="com.erayerarslan.t_vac_kotlin.ui.login.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.farukayata.t_vac_kotlin.ui.home.HomeFragment"
+        android:name="com.erayerarslan.t_vac_kotlin.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/deviceFragment"
-        android:name="com.farukayata.t_vac_kotlin.ui.device.DeviceFragment"
+        android:name="com.erayerarslan.t_vac_kotlin.ui.device.DeviceFragment"
         android:label="fragment_device"
         tools:layout="@layout/fragment_device" >
         <action
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.farukayata.t_vac_kotlin.ui.search.SearchFragment"
+        android:name="com.erayerarslan.t_vac_kotlin.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
 
@@ -68,13 +68,13 @@
     <!-- detailfragment -->
     <fragment
         android:id="@+id/treeDetailFragment"
-        android:name="com.farukayata.t_vac_kotlin.ui.tree_detail.TreeDetailFragment"
+        android:name="com.erayerarslan.t_vac_kotlin.ui.tree_detail.TreeDetailFragment"
         android:label="fragment_tree_detail"
         tools:layout="@layout/fragment_tree_detail">
 
         <argument
             android:name="tree"
-            app:argType="com.farukayata.t_vac_kotlin.model.Plant"
+            app:argType="com.erayerarslan.t_vac_kotlin.model.Plant"
             app:nullable="false"/>
 
     </fragment>

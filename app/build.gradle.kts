@@ -29,11 +29,11 @@ plugins {
 }
 
 android {
-    namespace = "com.farukayata.t_vac_kotlin"
+    namespace = "com.erayerarslan.t_vac_kotlin"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.farukayata.t_vac_kotlin"
+        applicationId = "com.erayerarslan.t_vac_kotlin"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

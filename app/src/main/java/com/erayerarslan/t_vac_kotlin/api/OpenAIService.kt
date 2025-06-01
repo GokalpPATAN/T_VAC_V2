@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.api
+package com.erayerarslan.t_vac_kotlin.api
 
 import retrofit2.Response
 import retrofit2.http.Body

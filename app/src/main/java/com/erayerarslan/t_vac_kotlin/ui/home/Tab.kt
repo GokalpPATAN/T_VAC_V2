@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.ui.home
+package com.erayerarslan.t_vac_kotlin.ui.home
 
 enum class Tab {
     PARAMETERS,

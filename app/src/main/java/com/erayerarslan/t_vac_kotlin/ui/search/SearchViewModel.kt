@@ -1,13 +1,13 @@
-package com.farukayata.t_vac_kotlin.ui.search
+package com.erayerarslan.t_vac_kotlin.ui.search
 
-import com.farukayata.t_vac_kotlin.model.Plant
+import com.erayerarslan.t_vac_kotlin.model.Plant
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.model.SensorDataManager
+import com.erayerarslan.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.SensorDataManager
 import com.erayerarslan.t_vac_kotlin.repository.GeminiRepository
 import com.google.firebase.database.DatabaseError
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -23,7 +23,7 @@
         app:navGraph="@navigation/nav_host"
         />
 
-    <com.farukayata.t_vac_kotlin.ui.components.CustomToolbar
+    <com.erayerarslan.t_vac_kotlin.ui.components.CustomToolbar
         android:id="@+id/customToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

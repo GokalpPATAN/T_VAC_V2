@@ -1,6 +1,6 @@
-package com.farukayata.t_vac_kotlin.ui.adapter
+package com.erayerarslan.t_vac_kotlin.ui.adapter
 
-import com.farukayata.t_vac_kotlin.model.Plant
+import com.erayerarslan.t_vac_kotlin.model.Plant
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,11 +14,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.farukayata.t_vac_kotlin.R
-import com.farukayata.t_vac_kotlin.databinding.ItemTreeBinding
-import com.farukayata.t_vac_kotlin.api.OpenAIClient
-import com.farukayata.t_vac_kotlin.api.ImageGenerationRequest
-import com.farukayata.t_vac_kotlin.ui.search.SearchViewModel
+import com.erayerarslan.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.databinding.ItemTreeBinding
+import com.erayerarslan.t_vac_kotlin.api.OpenAIClient
+import com.erayerarslan.t_vac_kotlin.api.ImageGenerationRequest
+import com.erayerarslan.t_vac_kotlin.ui.search.SearchViewModel
 import kotlinx.coroutines.*
 
 class SearchAdapter(

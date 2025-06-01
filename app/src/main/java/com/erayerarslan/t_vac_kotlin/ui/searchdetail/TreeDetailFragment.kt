@@ -1,6 +1,6 @@
-package com.farukayata.t_vac_kotlin.ui.tree_detail
+package com.erayerarslan.t_vac_kotlin.ui.tree_detail
 
-import com.farukayata.t_vac_kotlin.model.Plant
+import com.erayerarslan.t_vac_kotlin.model.Plant
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.farukayata.t_vac_kotlin.R
-import com.farukayata.t_vac_kotlin.databinding.FragmentTreeDetailBinding
+import com.erayerarslan.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.databinding.FragmentTreeDetailBinding
 
 class TreeDetailFragment : Fragment() {
 

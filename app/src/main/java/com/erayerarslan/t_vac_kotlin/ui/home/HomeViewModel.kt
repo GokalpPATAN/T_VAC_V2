@@ -1,13 +1,13 @@
-package com.farukayata.t_vac_kotlin.ui.home
+package com.erayerarslan.t_vac_kotlin.ui.home
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.farukayata.t_vac_kotlin.domain.usecase.FetchSensorDataUseCase
-import com.farukayata.t_vac_kotlin.domain.usecase.GetLatestSensorDataUseCase
-import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.model.SensorDataManager
-import com.farukayata.t_vac_kotlin.model.SensorDataManager.fetchSensorData
+import com.erayerarslan.t_vac_kotlin.domain.usecase.FetchSensorDataUseCase
+import com.erayerarslan.t_vac_kotlin.domain.usecase.GetLatestSensorDataUseCase
+import com.erayerarslan.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.SensorDataManager
+import com.erayerarslan.t_vac_kotlin.model.SensorDataManager.fetchSensorData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow

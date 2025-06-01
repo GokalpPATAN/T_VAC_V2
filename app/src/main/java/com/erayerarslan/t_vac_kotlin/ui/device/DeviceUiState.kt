@@ -1,7 +1,7 @@
-package com.farukayata.t_vac_kotlin.ui.device
+package com.erayerarslan.t_vac_kotlin.ui.device
 
-import com.farukayata.t_vac_kotlin.model.Device
-import com.farukayata.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.Device
+import com.erayerarslan.t_vac_kotlin.model.SensorData
 
 sealed class DeviceUiState {
     object Init : DeviceUiState()

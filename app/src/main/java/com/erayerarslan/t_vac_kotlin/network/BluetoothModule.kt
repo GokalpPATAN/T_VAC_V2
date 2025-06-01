@@ -1,8 +1,8 @@
-//package com.farukayata.t_vac_kotlin.network
+//package com.erayerarslan.t_vac_kotlin.network
 //
 //
-//import com.farukayata.t_vac_kotlin.repository.BluetoothRepository
-//import com.farukayata.t_vac_kotlin.repository.BluetoothRepositoryImpl
+//import com.erayerarslan.t_vac_kotlin.repository.BluetoothRepository
+//import com.erayerarslan.t_vac_kotlin.repository.BluetoothRepositoryImpl
 //import dagger.Binds
 //import dagger.Module
 //import dagger.hilt.InstallIn

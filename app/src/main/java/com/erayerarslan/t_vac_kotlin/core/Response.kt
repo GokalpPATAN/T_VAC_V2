@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.core
+package com.erayerarslan.t_vac_kotlin.core
 
 sealed class Response<out T> {
     data object Loading : Response<Nothing>()

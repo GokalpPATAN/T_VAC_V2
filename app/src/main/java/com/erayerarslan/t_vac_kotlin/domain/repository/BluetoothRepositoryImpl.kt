@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.domain.repository
+package com.erayerarslan.t_vac_kotlin.domain.repository
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -7,10 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
-import com.farukayata.t_vac_kotlin.domain.repository.BluetoothRepository
-import com.farukayata.t_vac_kotlin.model.Device
-import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.model.SensorDataManager
+import com.erayerarslan.t_vac_kotlin.domain.repository.BluetoothRepository
+import com.erayerarslan.t_vac_kotlin.model.Device
+import com.erayerarslan.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.SensorDataManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -217,7 +217,7 @@ class BluetoothRepositoryImpl @Inject constructor(
 
 
 /*
-package com.farukayata.t_vac_kotlin.domain.repository
+package com.erayerarslan.t_vac_kotlin.domain.repository
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -226,10 +226,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
-import com.farukayata.t_vac_kotlin.domain.repository.BluetoothRepository
-import com.farukayata.t_vac_kotlin.model.Device
-import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.model.SensorDataManager
+import com.erayerarslan.t_vac_kotlin.domain.repository.BluetoothRepository
+import com.erayerarslan.t_vac_kotlin.model.Device
+import com.erayerarslan.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.SensorDataManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose

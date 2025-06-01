@@ -1,8 +1,8 @@
-package com.farukayata.t_vac_kotlin.di
+package com.erayerarslan.t_vac_kotlin.di
 
 import android.util.Log
 import com.google.ai.client.generativeai.GenerativeModel
-import com.farukayata.t_vac_kotlin.BuildConfig
+import com.erayerarslan.t_vac_kotlin.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

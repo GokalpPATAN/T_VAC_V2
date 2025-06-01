@@ -1,7 +1,7 @@
-package com.farukayata.t_vac_kotlin.domain.usecase
+package com.erayerarslan.t_vac_kotlin.domain.usecase
 
-import com.farukayata.t_vac_kotlin.domain.repository.BluetoothRepository
-import com.farukayata.t_vac_kotlin.model.Device
+import com.erayerarslan.t_vac_kotlin.domain.repository.BluetoothRepository
+import com.erayerarslan.t_vac_kotlin.model.Device
 import javax.inject.Inject
 
 /**

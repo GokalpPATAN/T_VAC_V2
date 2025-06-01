@@ -1,6 +1,6 @@
-package com.farukayata.t_vac_kotlin.di
+package com.erayerarslan.t_vac_kotlin.di
 
-import com.farukayata.t_vac_kotlin.model.SensorDataManager
+import com.erayerarslan.t_vac_kotlin.model.SensorDataManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

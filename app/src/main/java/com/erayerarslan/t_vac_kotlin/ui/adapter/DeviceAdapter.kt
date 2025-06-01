@@ -1,11 +1,11 @@
-package com.farukayata.t_vac_kotlin.ui.adapter
+package com.erayerarslan.t_vac_kotlin.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.farukayata.t_vac_kotlin.databinding.ItemDeviceBinding
-import com.farukayata.t_vac_kotlin.model.Device
+import com.erayerarslan.t_vac_kotlin.databinding.ItemDeviceBinding
+import com.erayerarslan.t_vac_kotlin.model.Device
 
 class DeviceAdapter(var deviceList: List<Device>, private val onDeviceClick: (Device) -> Unit)
     : RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder>() {

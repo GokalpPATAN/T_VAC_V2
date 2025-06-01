@@ -1,7 +1,7 @@
-package com.farukayata.t_vac_kotlin.domain.repository
+package com.erayerarslan.t_vac_kotlin.domain.repository
 
-import com.farukayata.t_vac_kotlin.model.Device
-import com.farukayata.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.Device
+import com.erayerarslan.t_vac_kotlin.model.SensorData
 
 interface BluetoothRepository {
     suspend fun discoverDevices(): List<Device>

@@ -1,10 +1,10 @@
-package com.farukayata.t_vac_kotlin.util
+package com.erayerarslan.t_vac_kotlin.util
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.farukayata.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.R
 
 fun ImageView.loadImage(url: String?, placeholder: Int = R.drawable.ic_acacia, error: Int = R.drawable.ic_add) {
     Glide.with(this.context)

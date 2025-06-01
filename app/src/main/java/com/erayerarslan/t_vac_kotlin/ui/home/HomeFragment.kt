@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.ui.home
+package com.erayerarslan.t_vac_kotlin.ui.home
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -14,12 +14,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.farukayata.t_vac_kotlin.R
-import com.farukayata.t_vac_kotlin.databinding.FragmentHomeBinding
-import com.farukayata.t_vac_kotlin.model.Device
-import com.farukayata.t_vac_kotlin.ui.adapter.ParameterAdapter
-import com.farukayata.t_vac_kotlin.ui.device.DeviceUiState
-import com.farukayata.t_vac_kotlin.ui.device.DeviceViewModel
+import com.erayerarslan.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.databinding.FragmentHomeBinding
+import com.erayerarslan.t_vac_kotlin.model.Device
+import com.erayerarslan.t_vac_kotlin.ui.adapter.ParameterAdapter
+import com.erayerarslan.t_vac_kotlin.ui.device.DeviceUiState
+import com.erayerarslan.t_vac_kotlin.ui.device.DeviceViewModel
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult

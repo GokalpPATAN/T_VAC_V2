@@ -1,6 +1,6 @@
-package com.farukayata.t_vac_kotlin.api
+package com.erayerarslan.t_vac_kotlin.api
 
-import com.farukayata.t_vac_kotlin.BuildConfig
+import com.erayerarslan.t_vac_kotlin.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

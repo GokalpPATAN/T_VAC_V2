@@ -1,12 +1,12 @@
-package com.farukayata.t_vac_kotlin.ui.device
+package com.erayerarslan.t_vac_kotlin.ui.device
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.farukayata.t_vac_kotlin.domain.usecase.DiscoverDevicesUseCase
-import com.farukayata.t_vac_kotlin.domain.usecase.FetchDeviceSensorDataUseCase
-import com.farukayata.t_vac_kotlin.domain.usecase.PairDeviceUseCase
-import com.farukayata.t_vac_kotlin.model.Device
+import com.erayerarslan.t_vac_kotlin.domain.usecase.DiscoverDevicesUseCase
+import com.erayerarslan.t_vac_kotlin.domain.usecase.FetchDeviceSensorDataUseCase
+import com.erayerarslan.t_vac_kotlin.domain.usecase.PairDeviceUseCase
+import com.erayerarslan.t_vac_kotlin.model.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

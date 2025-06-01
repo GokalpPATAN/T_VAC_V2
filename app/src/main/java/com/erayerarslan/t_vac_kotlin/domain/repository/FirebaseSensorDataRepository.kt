@@ -1,8 +1,8 @@
 package com.erayerarslan.t_vac_kotlin.domain.repository
 
-import com.farukayata.t_vac_kotlin.domain.repository.SensorDataRepository
-import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.model.SensorDataManager
+import com.erayerarslan.t_vac_kotlin.domain.repository.SensorDataRepository
+import com.erayerarslan.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.SensorDataManager
 import javax.inject.Inject
 import javax.inject.Singleton
 

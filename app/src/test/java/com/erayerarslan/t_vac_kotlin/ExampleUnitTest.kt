@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin
+package com.erayerarslan.t_vac_kotlin
 
 import org.junit.Test
 

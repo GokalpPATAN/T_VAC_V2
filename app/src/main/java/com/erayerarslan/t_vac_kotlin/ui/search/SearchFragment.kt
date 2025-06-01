@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.ui.search
+package com.erayerarslan.t_vac_kotlin.ui.search
 
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +10,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.farukayata.t_vac_kotlin.databinding.FragmentSearchBinding
-import com.farukayata.t_vac_kotlin.model.SensorDataManager
-import com.farukayata.t_vac_kotlin.ui.adapter.SearchAdapter
+import com.erayerarslan.t_vac_kotlin.databinding.FragmentSearchBinding
+import com.erayerarslan.t_vac_kotlin.model.SensorDataManager
+import com.erayerarslan.t_vac_kotlin.ui.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.fragment.findNavController
 

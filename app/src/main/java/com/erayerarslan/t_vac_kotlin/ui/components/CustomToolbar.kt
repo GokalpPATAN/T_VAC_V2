@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.ui.components
+package com.erayerarslan.t_vac_kotlin.ui.components
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.LinearLayout
-import com.farukayata.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.R
 
 class CustomToolbar @JvmOverloads constructor(
     context: Context,

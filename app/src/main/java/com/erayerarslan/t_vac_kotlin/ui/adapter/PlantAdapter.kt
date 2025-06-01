@@ -1,14 +1,14 @@
-package com.farukayata.t_vac_kotlin.ui.adapter
+package com.erayerarslan.t_vac_kotlin.ui.adapter
 
-import com.farukayata.t_vac_kotlin.model.Plant
+import com.erayerarslan.t_vac_kotlin.model.Plant
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.farukayata.t_vac_kotlin.R
-import com.farukayata.t_vac_kotlin.databinding.ItemTreeBinding
+import com.erayerarslan.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.databinding.ItemTreeBinding
 
 class PlantAdapter(
     private var plantList: List<Plant>,

@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.ui.device
+package com.erayerarslan.t_vac_kotlin.ui.device
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -13,9 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.farukayata.t_vac_kotlin.R
-import com.farukayata.t_vac_kotlin.databinding.FragmentDeviceBinding
-import com.farukayata.t_vac_kotlin.ui.adapter.DeviceAdapter
+import com.erayerarslan.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.databinding.FragmentDeviceBinding
+import com.erayerarslan.t_vac_kotlin.ui.adapter.DeviceAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -141,7 +141,7 @@ class DeviceFragment : Fragment(R.layout.fragment_device) {
 
 
 /*
-package com.farukayata.t_vac_kotlin.ui.device
+package com.erayerarslan.t_vac_kotlin.ui.device
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -156,9 +156,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.farukayata.t_vac_kotlin.R
-import com.farukayata.t_vac_kotlin.databinding.FragmentDeviceBinding
-import com.farukayata.t_vac_kotlin.ui.adapter.DeviceAdapter
+import com.erayerarslan.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.databinding.FragmentDeviceBinding
+import com.erayerarslan.t_vac_kotlin.ui.adapter.DeviceAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

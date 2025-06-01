@@ -1,9 +1,9 @@
-package com.farukayata.t_vac_kotlin.ui.login
+package com.erayerarslan.t_vac_kotlin.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.farukayata.t_vac_kotlin.core.Response
-import com.farukayata.t_vac_kotlin.domain.repository.AuthenticationRepository
+import com.erayerarslan.t_vac_kotlin.core.Response
+import com.erayerarslan.t_vac_kotlin.domain.repository.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,7 +1,7 @@
-//package com.farukayata.t_vac_kotlin.di
+//package com.erayerarslan.t_vac_kotlin.di
 //
 //import com.erayerarslan.t_vac_kotlin.domain.repository.FirebaseSensorDataRepository
-//import com.farukayata.t_vac_kotlin.repository.SensorDataRepository
+//import com.erayerarslan.t_vac_kotlin.repository.SensorDataRepository
 //import dagger.Binds
 //import dagger.Module
 //import dagger.hilt.InstallIn

@@ -1,6 +1,6 @@
-package com.farukayata.t_vac_kotlin.model
+package com.erayerarslan.t_vac_kotlin.model
 
-import com.farukayata.t_vac_kotlin.model.Plant
+import com.erayerarslan.t_vac_kotlin.model.Plant
 
 /**
  * Gemini API'den gelen ham JSON veri modeli.

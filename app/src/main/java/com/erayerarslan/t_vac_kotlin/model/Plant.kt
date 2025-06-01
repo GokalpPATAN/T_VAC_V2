@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.model
+package com.erayerarslan.t_vac_kotlin.model
 
 import android.os.Parcelable
 import androidx.lifecycle.LiveData

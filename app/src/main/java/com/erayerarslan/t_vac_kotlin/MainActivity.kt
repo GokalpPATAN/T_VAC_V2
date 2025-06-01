@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin
+package com.erayerarslan.t_vac_kotlin
 
 import android.os.Bundle
 import android.view.View
@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.farukayata.t_vac_kotlin.databinding.ActivityMainBinding
+import com.erayerarslan.t_vac_kotlin.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
-import com.farukayata.t_vac_kotlin.ui.components.CustomToolbar
+import com.erayerarslan.t_vac_kotlin.ui.components.CustomToolbar
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

@@ -1,6 +1,6 @@
-package com.farukayata.t_vac_kotlin.domain.usecase
+package com.erayerarslan.t_vac_kotlin.domain.usecase
 
-import com.farukayata.t_vac_kotlin.domain.repository.AuthenticationRepository
+import com.erayerarslan.t_vac_kotlin.domain.repository.AuthenticationRepository
 import javax.inject.Inject
 
 class LogoutUseCase @Inject constructor(

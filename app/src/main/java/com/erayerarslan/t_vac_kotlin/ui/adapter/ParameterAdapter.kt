@@ -1,4 +1,4 @@
-package com.farukayata.t_vac_kotlin.ui.adapter
+package com.erayerarslan.t_vac_kotlin.ui.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.farukayata.t_vac_kotlin.ui.home.ParameterChart
-import com.farukayata.t_vac_kotlin.R
+import com.erayerarslan.t_vac_kotlin.ui.home.ParameterChart
+import com.erayerarslan.t_vac_kotlin.R
 import androidx.core.graphics.toColorInt
 
 class ParameterAdapter(

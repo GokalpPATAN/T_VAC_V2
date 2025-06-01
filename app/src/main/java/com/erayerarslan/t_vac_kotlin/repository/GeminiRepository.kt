@@ -1,10 +1,10 @@
 package com.erayerarslan.t_vac_kotlin.repository
 
 import android.util.Log
-import com.farukayata.t_vac_kotlin.model.Plant
-import com.farukayata.t_vac_kotlin.model.SensorData
-import com.farukayata.t_vac_kotlin.model.TreeRaw
-import com.farukayata.t_vac_kotlin.model.toPlant
+import com.erayerarslan.t_vac_kotlin.model.Plant
+import com.erayerarslan.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.model.TreeRaw
+import com.erayerarslan.t_vac_kotlin.model.toPlant
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

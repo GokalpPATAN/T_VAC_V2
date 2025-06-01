@@ -1,7 +1,7 @@
-package com.farukayata.t_vac_kotlin.domain.usecase
+package com.erayerarslan.t_vac_kotlin.domain.usecase
 
-import com.farukayata.t_vac_kotlin.domain.repository.SensorDataRepository
-import com.farukayata.t_vac_kotlin.model.SensorData
+import com.erayerarslan.t_vac_kotlin.domain.repository.SensorDataRepository
+import com.erayerarslan.t_vac_kotlin.model.SensorData
 import javax.inject.Inject
 
 /**

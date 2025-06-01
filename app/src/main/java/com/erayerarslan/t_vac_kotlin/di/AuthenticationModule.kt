@@ -1,7 +1,7 @@
-package com.farukayata.t_vac_kotlin.di
+package com.erayerarslan.t_vac_kotlin.di
 
-import com.farukayata.t_vac_kotlin.domain.repository.AuthenticationRepository
-import com.farukayata.t_vac_kotlin.domain.repository.AuthenticationRepositoryImpl
+import com.erayerarslan.t_vac_kotlin.domain.repository.AuthenticationRepository
+import com.erayerarslan.t_vac_kotlin.domain.repository.AuthenticationRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
