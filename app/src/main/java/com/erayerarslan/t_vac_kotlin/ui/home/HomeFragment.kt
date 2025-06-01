@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.erayerarslan.t_vac_kotlin.MainActivity
 import com.erayerarslan.t_vac_kotlin.R
 import com.erayerarslan.t_vac_kotlin.databinding.FragmentHomeBinding
 import com.erayerarslan.t_vac_kotlin.model.Device
@@ -50,7 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentHomeBinding.bind(view)
-
+        (activity as MainActivity).showBottomNavigation()
         // MapView setup
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState?.getBundle("MapViewBundleKey"))

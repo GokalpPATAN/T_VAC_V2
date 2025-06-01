@@ -2,6 +2,7 @@ package com.erayerarslan.t_vac_kotlin.ui.device
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -34,7 +35,7 @@ class DeviceFragment : Fragment(R.layout.fragment_device) {
         if (perms.values.all { it }) {
             startDiscovery()
         } else {
-            //Toast.makeText(requireContext(), "Bluetooth taraması için gerekli izinler reddedildi", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Bluetooth taraması için gerekli izinler reddedildi", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -71,9 +72,9 @@ class DeviceFragment : Fragment(R.layout.fragment_device) {
                         binding.btnStartDiscovery.isEnabled = true
                         adapter.updateDeviceList(state.devices)
                         if (state.devices.isEmpty()) {
-                            //Toast.makeText(requireContext(),
-                              //  "Hiç Bluetooth cihazı bulunamadı. Lütfen Bluetooth'un açık olduğundan emin olun.",
-                                //Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(),
+                               "Hiç Bluetooth cihazı bulunamadı. Lütfen Bluetooth'un açık olduğundan emin olun.",
+                                Toast.LENGTH_LONG).show()
                         }
                     }
                     is DeviceUiState.SensorDataLoaded -> {
@@ -97,20 +98,24 @@ class DeviceFragment : Fragment(R.layout.fragment_device) {
     }
 
     private fun checkAndStartDiscovery() {
-        val requiredPermissions = mutableListOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.BLUETOOTH_SCAN,
-            Manifest.permission.BLUETOOTH_CONNECT
-        )
-
-        val missingPermissions = requiredPermissions.filter {
-            ContextCompat.checkSelfPermission(requireContext(), it) != PackageManager.PERMISSION_GRANTED
+        val permissionsNeeded = mutableListOf<String>()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                permissionsNeeded.add(Manifest.permission.BLUETOOTH_CONNECT)
+            }
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                permissionsNeeded.add(Manifest.permission.BLUETOOTH_SCAN)
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                permissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
         }
 
-        if (missingPermissions.isEmpty()) {
-            startDiscovery()
+        if (permissionsNeeded.isNotEmpty()) {
+            requestPerm.launch(permissionsNeeded.toTypedArray())
         } else {
-            requestPerm.launch(missingPermissions.toTypedArray())
+            startDiscovery()
         }
     }
 

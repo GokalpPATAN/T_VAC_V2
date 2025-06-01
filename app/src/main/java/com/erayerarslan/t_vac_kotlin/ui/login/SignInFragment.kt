@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.erayerarslan.t_vac_kotlin.MainActivity
 import com.erayerarslan.t_vac_kotlin.R
 import com.erayerarslan.t_vac_kotlin.core.Response
 import com.erayerarslan.t_vac_kotlin.databinding.FragmentSignInBinding
@@ -42,7 +43,7 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        (activity as MainActivity).hideBottomNavigation()
         binding.buttonSignIn.setOnClickListener {
             val email = binding.emailEt.text.toString()
             val password = binding.passET.text.toString()

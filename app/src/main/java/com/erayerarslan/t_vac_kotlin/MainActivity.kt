@@ -74,6 +74,12 @@ class MainActivity : AppCompatActivity() {
     private fun hideToolbar() {
         binding.customToolbar.visibility = View.GONE
     }
+    fun showBottomNavigation() {
+        binding.bottomNavigation.visibility = View.VISIBLE
+    }
+    fun hideBottomNavigation() {
+        binding.bottomNavigation.visibility = View.GONE
+    }
 
     private fun createBottomNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment

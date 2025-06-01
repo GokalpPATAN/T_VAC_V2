@@ -102,7 +102,7 @@
         android:id="@+id/textViewSignUpWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register to FLO Replica"
+        android:text="Register to T-VAC"
         android:gravity="center"
         android:textSize="26sp"
         android:textColor="@color/white"

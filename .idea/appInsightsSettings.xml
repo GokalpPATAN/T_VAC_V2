@@ -9,7 +9,7 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.farukayata.t_vac_kotlin" />
+                  <option name="appId" value="com.erayerarslan.t_vac_kotlin" />
                   <option name="mobileSdkAppId" value="1:793472090587:android:65db9cac717a132c9927fe" />
                   <option name="projectId" value="t-vac-kotlin" />
                   <option name="projectNumber" value="793472090587" />

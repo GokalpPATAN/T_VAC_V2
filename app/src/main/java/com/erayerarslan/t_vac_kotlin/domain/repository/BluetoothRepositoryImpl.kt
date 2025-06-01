@@ -12,12 +12,14 @@ import com.erayerarslan.t_vac_kotlin.model.Device
 import com.erayerarslan.t_vac_kotlin.model.SensorData
 import com.erayerarslan.t_vac_kotlin.model.SensorDataManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import java.util.regex.Pattern
@@ -69,8 +71,10 @@ class BluetoothRepositoryImpl @Inject constructor(
 
                                 val dev = Device(name, address, bt)
                                 if (found.none { it.address == dev.address }) {
-                                    found.add(dev)
-                                    trySend(found)
+                                    launch{
+                                        found.add(dev)
+                                        send(found)
+                                    }
                                 }
                             }
                         }
