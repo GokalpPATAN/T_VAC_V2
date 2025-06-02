@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/historyItemRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginVertical="6dp"
+    android:elevation="2dp">
+
+    <!-- Başlık (timestamp) -->
+    <TextView
+        android:id="@+id/tvTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12 May 2025, 14:30"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="#000000" />
+
+    <!-- Detaylar (gizli açılır alan) -->
+    <LinearLayout
+        android:id="@+id/detailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingTop="8dp"
+        android:paddingStart="12dp">
+
+        <TextView
+            android:id="@+id/tvPh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pH: 6.50" />
+
+        <TextView
+            android:id="@+id/tvTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temperature: 25.0°C" />
+
+        <TextView
+            android:id="@+id/tvHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Humidity: 45%" />
+
+        <TextView
+            android:id="@+id/tvConductibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Conductibility: 2.1" />
+
+        <TextView
+            android:id="@+id/tvFosfor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fosfor: 30.0" />
+
+        <TextView
+            android:id="@+id/tvPotasyum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Potasyum: 150.0" />
+
+        <TextView
+            android:id="@+id/tvAzot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Azot: 1.0" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location: Alibeyköy" />
+
+    </LinearLayout>
+</LinearLayout>

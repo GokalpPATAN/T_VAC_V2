@@ -43,8 +43,19 @@ class MainActivity : AppCompatActivity() {
                     customToolbar.setTitle("T-VAC")
                     customToolbar.showBack(true)
                     customToolbar.showHome(true)
+                    hideBottomNavigation()
                 }
-                // Diğer fragmentlar için toolbarı gizle
+                R.id.searchFragment -> {
+                    showToolbar()
+                    customToolbar.setTitle("T-VAC")
+                }
+                R.id.deviceFragment -> {
+                    showToolbar()
+                    customToolbar.setTitle("T-VAC")
+                    customToolbar.showBack(true)
+                    customToolbar.showHome(true)
+                    hideBottomNavigation()
+                }
                 else -> {
                     hideToolbar()
                 }
@@ -68,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToolbar() {
+    fun showToolbar() {
         binding.customToolbar.visibility = View.VISIBLE
     }
     private fun hideToolbar() {

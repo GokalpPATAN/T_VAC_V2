@@ -29,10 +29,10 @@ class HomeViewModel @Inject constructor(
     private val _uiState     = MutableStateFlow<HomeUiState>(HomeUiState.Init)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
+    val deviceSelected = MutableStateFlow(false)
+
     private val _selectedTab = MutableStateFlow(Tab.PARAMETERS)
     val selectedTab: StateFlow<Tab> = _selectedTab.asStateFlow()
-
-    init { refreshSensorData() }
 
     fun refreshSensorData() = viewModelScope.launch {
         flow { emit(fetchSensorData()) }
@@ -81,15 +81,26 @@ class HomeViewModel @Inject constructor(
         colorFn: (Float) -> String
     ): ParameterChart {
         if (value == null) return ParameterChart(name, 0f, "#CCCCCC", "No Data")
+
         val status = statusFn(value)
-        val barValue = when (status) {
-            "Very Low" -> .10f; "Low" -> .25f; "Normal" -> .50f
-            "High" -> .75f; "Very High" -> 1f
-            else -> 0f
-        }
+        val barValue = getNormalizedValue(name, value)
+
         return ParameterChart(name, barValue, colorFn(value), status)
     }
 
+    private fun getNormalizedValue(name: String, value: Float): Float {
+        val (min, max) = when (name) {
+            "Soil Moisture"    -> 10f to 60f           // humidityValue
+            "pH Value"         -> 5f to 8.99f          // phValue
+            "Conductivity"     -> 1f to 3.99f          // conductibilityValue
+            "Phosphorus"       -> 5f to 50.99f         // fosforValue
+            "Potassium"        -> 50f to 300.99f       // potasyumValue
+            "Nitrogen"         -> 0f to 2.99f          // azotValue
+            "Temperature"      -> 15f to 35.99f        // temperatureValue
+            else               -> 0f to 100f
+        }
+        return ((value - min) / (max - min)).coerceIn(0f, 1f)
+    }
 
     fun getPhStatus(value: Float): String = when {
         value < 5.0f -> "Very Low"
@@ -202,4 +213,11 @@ class HomeViewModel @Inject constructor(
         value < 60f -> "#FFA500"
         else -> "#FF0000"
     }
+
+    private fun Initilization() = viewModelScope.launch {
+        SensorDataManager.clearSensorData()
+        SensorDataManager.InitialSensor(1)
+        refreshSensorData()
+    }
+
 }
